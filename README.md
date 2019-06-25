@@ -19,6 +19,10 @@ Eingabe der Pfade zu den einzelnen PDF Betrachtungsprogrammen (ein Pfad pro Zeil
 Optional kann durch die Eingabe eines Semikolons + anschließenden String ein Name gewählt werden.
 Dieser Name wird als Dateiname zum dazugehörigen Screenshot verwendet.
 Wird kein Name angebeben, wird der Dateiname des PDF Betrachungsprogramms verwendet.
+Zusätzlich zum Namen, kann durch die Eingabe eines weiteren Semikolons + anschließenden ganzzahligen Wert ein Wartezeit eingetragen werden.
+Da PDF Betrachtungsprogramme unterschiedliche Zeitspannen benötigen, um den Inhalt eines PDF Dokuments anzuzeigen, kann hier eine Wartezeit individuell für jedes PDF Betrachtungsprogramm eingetragen werden.
+Erst nach dieser Wartezeit wird ein Screenshot angefertigt und das Programm geschlossen.
+Wird keine Wartezeit angegeben, so wird die Wartezeit unter [Einstellungen] verwendet.
 
 PDF Dateien (Pfadangabe):
 An dieser Stelle muss der Ordner zu den PDF Dateien angegeben werden.
