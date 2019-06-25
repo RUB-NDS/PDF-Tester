@@ -66,19 +66,20 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(28, 52);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(226, 13);
+            this.label2.Size = new System.Drawing.Size(481, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Eingabeformat: Programmpfad;Name (optional)";
+            this.label2.Text = "Eingabeformat: Programmpfad;Name (optional);Wartezeit für Programmaufbau in Sekun" +
+    "den (optional)";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(28, 74);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(449, 13);
+            this.label3.Size = new System.Drawing.Size(464, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Beispiel: C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe;Adob" +
-    "eDC";
+    "eDC;10";
             // 
             // label4
             // 

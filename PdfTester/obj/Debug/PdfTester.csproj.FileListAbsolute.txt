@@ -31,7 +31,6 @@ C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdftTester\obj\Debu
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\bin\Debug\PdfTester.exe.config
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\bin\Debug\PdfTester.exe
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\bin\Debug\PdfTester.pdb
-C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.csprojAssemblyReference.cache
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.Compare.resources
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.Gui.resources
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.Ocr.resources
@@ -42,3 +41,4 @@ C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.csproj.CoreCompileInputs.cache
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.exe
 C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.pdb
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfTester\PdfTester\obj\Debug\PdfTester.csprojAssemblyReference.cache

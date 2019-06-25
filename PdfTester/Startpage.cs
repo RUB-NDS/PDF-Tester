@@ -188,7 +188,7 @@ namespace PdfTester
         {
             string result, pdfName, programName, programFile;
             string[] seperator = { "\r\n" };
-            int waitTime1, waitTime2;
+            int waitTime1, waitTime1Settings, waitTime2Settings;
 
             t = 0;
 
@@ -222,8 +222,8 @@ namespace PdfTester
                 {
                     if (result.Length > 5 && result.Substring(0, 6) == error)
                     {
-                        waitTime1 = Convert.ToInt32(Names.waitTime1);
-                        waitTime2 = Convert.ToInt32(Names.waitTime2);
+                        waitTime1Settings = Convert.ToInt32(Names.waitTime1);
+                        waitTime2Settings = Convert.ToInt32(Names.waitTime2);
                         MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
@@ -231,21 +231,21 @@ namespace PdfTester
                         try
                         {
                             string[] split = result.Split(';');
-                            waitTime1 = Convert.ToInt32(split[0]);
-                            waitTime2 = Convert.ToInt32(split[1]);
+                            waitTime1Settings = Convert.ToInt32(split[0]);
+                            waitTime2Settings = Convert.ToInt32(split[1]);
                         }
                         catch (Exception e1)
                         {
-                            waitTime1 = Convert.ToInt32(Names.waitTime1);
-                            waitTime2 = Convert.ToInt32(Names.waitTime2);
+                            waitTime1Settings = Convert.ToInt32(Names.waitTime1);
+                            waitTime2Settings = Convert.ToInt32(Names.waitTime2);
                             MessageBox.Show("Fehler (Startpage.BtnStart_Click): Fehler beim Konvertieren der Wartezeiten." + Environment.NewLine + "Es werden die Standardwerte verwendet." + Environment.NewLine + e1.ToString(), error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
                 else
                 {
-                    waitTime1 = Convert.ToInt32(Names.waitTime1);
-                    waitTime2 = Convert.ToInt32(Names.waitTime2);
+                    waitTime1Settings = Convert.ToInt32(Names.waitTime1);
+                    waitTime2Settings = Convert.ToInt32(Names.waitTime2);
                 }
 
                 if (!Directory.Exists(pdfPath))
@@ -265,10 +265,9 @@ namespace PdfTester
                         if (File.Exists(pdfPath + libreOfficeLockFile))
                             File.Delete(pdfPath + libreOfficeLockFile);
 
-                        string pdfFilenameNew = @"\PDF-Tester-Dokument_" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".pdf";
-                        //Bei gleichem Dateinamen: umbenennen
+                        //Test-PDF-Dokument löschen, falls vorhanden
                         if (File.Exists(pdfPath + pdfFilename))
-                            File.Move(pdfPath + pdfFilename, pdfPath + pdfFilenameNew);
+                            File.Delete(pdfPath + pdfFilename);
 
                         foreach (string pdfDoc in Directory.GetFiles(pdfPath, "*.pdf"))
                         {
@@ -278,18 +277,32 @@ namespace PdfTester
                             pdfName = Path.GetFileNameWithoutExtension(pdfDoc);
 
                             //PDF Dokumentname für Screenshot ändern
-                            File.Move(pdfDoc, pdfPath + pdfFilename);
+                            File.Copy(pdfDoc, pdfPath + pdfFilename);
 
                             foreach (string program in programList.Split(seperator, StringSplitOptions.None))
                             {
                                 if (cancel == true)
                                     break;
 
+                                waitTime1 = waitTime1Settings;
+
                                 if (program.Contains(';'))
                                 {
                                     string[] split = program.Split(';');
                                     programFile = split[0];
                                     programName = pdfName + "_" + split[1] + "_" + DateTime.Now.ToString("yyyyMMdd") + ".png";
+
+                                    if (split.Length > 2)
+                                    {
+                                        try
+                                        {
+                                            waitTime1 = Convert.ToInt32(split[2]);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            waitTime1 = waitTime1Settings;
+                                        }
+                                    }
                                 }
                                 else
                                 {
@@ -302,7 +315,7 @@ namespace PdfTester
                                     await Task.Delay(500);
                                 }
 
-                                backgroundWorkerStart.RunWorkerAsync(programFile + ";" + pdfPath + pdfFilename + ";" + screenshotPath + "\\" + programName + ";" + waitTime1.ToString() + ";" + waitTime2.ToString());
+                                backgroundWorkerStart.RunWorkerAsync(programFile + ";" + pdfPath + pdfFilename + ";" + screenshotPath + "\\" + programName + ";" + waitTime1.ToString() + ";" + waitTime2Settings.ToString());
 
                                 while (backgroundWorkerStart.IsBusy == true)
                                 {
@@ -311,8 +324,9 @@ namespace PdfTester
                                 progressBarStart.PerformStep();
 
                             }
-                            //PDF Dokumentname wiederherstellen
-                            File.Move(pdfPath + pdfFilename, pdfDoc);
+                            //Test-PDF-Dokument löschen, falls vorhanden
+                            if (File.Exists(pdfPath + pdfFilename))
+                                File.Delete(pdfPath + pdfFilename);
 
                             //LibreOffice Lock-File löschen
                             if (File.Exists(pdfPath + libreOfficeLockFile))
