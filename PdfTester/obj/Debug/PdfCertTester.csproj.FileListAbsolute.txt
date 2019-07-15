@@ -1,0 +1,10 @@
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\bin\Debug\PdfCertTester.exe.config
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\bin\Debug\PdfCertTester.exe
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\bin\Debug\PdfCertTester.pdb
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.csprojAssemblyReference.cache
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.gui.resources
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.Properties.Resources.resources
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.csproj.GenerateResource.cache
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.csproj.CoreCompileInputs.cache
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.exe
+C:\Users\Ent\Documents\Visual Studio 2019\Projects\PdfCertTester\PdfCertTester\obj\Debug\PdfCertTester.pdb
