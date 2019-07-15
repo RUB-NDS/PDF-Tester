@@ -2,10 +2,10 @@ PDF Tester
 
 
 Funktionen:
--automatisch PDF Betrachtungsprogramme mit PDF Dokument aufrufen
--Screenshot anfertigen
--Screenshotvergleich
--OCR Texterkennung
+Automatisch PDF Betrachtungsprogramme mit PDF Dokument aufrufen
+Screenshot anfertigen
+Screenshotvergleich
+OCR Texterkennung
 
 
 Speicherort:
