@@ -114,3 +114,9 @@ Die PdfTester.exe ist digital signiert, um Sicherheitsmeldungen durch PDF Betrac
 Das Zertifikat muss dem Rechner als Vertrauenswürdige Stammzertifizierungsstelle hinzugefügt werden.
  
 
+Tesseract Programmdaten:
+https://github.com/UB-Mannheim/tesseract/wiki
+
+Tesseract Sprachpakete:
+https://github.com/tesseract-ocr
+
