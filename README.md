@@ -10,6 +10,7 @@ Eingaben werden in Konfigurationsdateien unter "C:\Users\USERNAME\AppData\Local\
 
 
 [Start]
+
 PDF Programmliste:
 Eingabe der Pfade zu den einzelnen PDF Betrachtungsprogrammen (ein Pfad pro Zeile).
 Optional kann durch die Eingabe eines Semikolons + anschließenden String ein Name gewählt werden.
@@ -37,6 +38,7 @@ Debug öffnen:
 
 
 [Vergleich]
+
 Hier können Screenshots mit einander verglichen werden.
 Da jeweils Pixel mit Pixel verglichen wird, müssen die zu vergleichenden Screenshots die selbe Pixelbreite aufweisen.
 
@@ -57,6 +59,7 @@ Die Ergebnisse werden in den beiden Textboxen ausgegeben.
 
 
 [OCR]
+
 Hier können Screenshots durch eine OCR Texterkennung eingelesen werden und der Inhalt nach expliziten Suchbegriffen durchsucht werden.
 Für die Texterkennung wird Tesseract in der Version 4 verwendet.
 
