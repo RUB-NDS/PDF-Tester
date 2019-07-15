@@ -1,7 +1,7 @@
 PDF Tester
 
 
-Installationsprogramm: PdfTester_Setup.exe entpackt die benötigten Daten selbstständig und erstellt eine Programmverknüpfung auf der Desktop.
+Installationsprogramm: PdfTester_Setup.exe entpackt die benötigten Daten selbstständig und erstellt eine Programmverknüpfung auf dem Desktop.
 
 
 Funktionen:
