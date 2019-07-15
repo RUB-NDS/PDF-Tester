@@ -104,5 +104,10 @@ Pfadangabe zum Tesseract Ordner:
 Hier kann der Tesseract Programmordner ausgewählt werden.
 Standardmäßig entpackt die Datei PdfTester_Setup.exe die Dateien unter "C:\Users\USERNAME\AppData\Local\PdfTester\tesseract".
 Unterhalb des tesseract-Ordners müssen die Sprachpakete im Ordner "tessdata" liegen.
+
+
+Hinweise:
+Die PdfTester.exe ist digital signiert, um Sicherheitsmeldungen durch PDF Betrachtungsprogrammen vorzubeugen.
+Das Zertifikat muss dem Rechner als Vertrauenswürdige Stammzertifizierungsstelle hinzugefügt werden.
  
 
