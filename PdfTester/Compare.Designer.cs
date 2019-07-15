@@ -1,4 +1,4 @@
-﻿namespace PdfCertTester
+﻿namespace PdfTester
 {
     partial class Compare
     {
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnOpenPdf = new System.Windows.Forms.Button();
-            this.textBoxPdfPath = new System.Windows.Forms.TextBox();
+            this.btnOpenScreenshotValid = new System.Windows.Forms.Button();
+            this.textBoxScreenshotValidPath = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.textBoxValidCompare = new System.Windows.Forms.TextBox();
@@ -37,32 +37,36 @@
             this.textBoxAllCompare = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.progressBarCompare = new System.Windows.Forms.ProgressBar();
-            this.folderBrowserDialogPdf = new System.Windows.Forms.FolderBrowserDialog();
+            this.folderBrowserDialogValidScreenshot = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorkerCompare = new System.ComponentModel.BackgroundWorker();
+            this.btnOpenScreenshot = new System.Windows.Forms.Button();
+            this.textBoxScreenshotPath = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.folderBrowserDialogScreenshot = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
-            // btnOpenPdf
+            // btnOpenScreenshotValid
             // 
-            this.btnOpenPdf.Location = new System.Drawing.Point(17, 57);
-            this.btnOpenPdf.Name = "btnOpenPdf";
-            this.btnOpenPdf.Size = new System.Drawing.Size(98, 31);
-            this.btnOpenPdf.TabIndex = 15;
-            this.btnOpenPdf.Text = "Ordner wählen";
-            this.btnOpenPdf.UseVisualStyleBackColor = true;
-            this.btnOpenPdf.Click += new System.EventHandler(this.BtnOpenPdf_Click);
+            this.btnOpenScreenshotValid.Location = new System.Drawing.Point(17, 149);
+            this.btnOpenScreenshotValid.Name = "btnOpenScreenshotValid";
+            this.btnOpenScreenshotValid.Size = new System.Drawing.Size(98, 31);
+            this.btnOpenScreenshotValid.TabIndex = 15;
+            this.btnOpenScreenshotValid.Text = "Ordner wählen";
+            this.btnOpenScreenshotValid.UseVisualStyleBackColor = true;
+            this.btnOpenScreenshotValid.Click += new System.EventHandler(this.BtnOpenScreenshotValid_Click);
             // 
-            // textBoxPdfPath
+            // textBoxScreenshotValidPath
             // 
-            this.textBoxPdfPath.Location = new System.Drawing.Point(17, 31);
-            this.textBoxPdfPath.Name = "textBoxPdfPath";
-            this.textBoxPdfPath.ReadOnly = true;
-            this.textBoxPdfPath.Size = new System.Drawing.Size(539, 20);
-            this.textBoxPdfPath.TabIndex = 14;
+            this.textBoxScreenshotValidPath.Location = new System.Drawing.Point(17, 123);
+            this.textBoxScreenshotValidPath.Name = "textBoxScreenshotValidPath";
+            this.textBoxScreenshotValidPath.ReadOnly = true;
+            this.textBoxScreenshotValidPath.Size = new System.Drawing.Size(539, 20);
+            this.textBoxScreenshotValidPath.TabIndex = 14;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 15);
+            this.label5.Location = new System.Drawing.Point(14, 107);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(290, 13);
             this.label5.TabIndex = 13;
@@ -81,18 +85,18 @@
             // 
             // textBoxValidCompare
             // 
-            this.textBoxValidCompare.Location = new System.Drawing.Point(17, 149);
+            this.textBoxValidCompare.Location = new System.Drawing.Point(17, 231);
             this.textBoxValidCompare.Multiline = true;
             this.textBoxValidCompare.Name = "textBoxValidCompare";
             this.textBoxValidCompare.ReadOnly = true;
             this.textBoxValidCompare.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxValidCompare.Size = new System.Drawing.Size(539, 466);
+            this.textBoxValidCompare.Size = new System.Drawing.Size(539, 384);
             this.textBoxValidCompare.TabIndex = 24;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 133);
+            this.label3.Location = new System.Drawing.Point(14, 215);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(173, 13);
             this.label3.TabIndex = 23;
@@ -129,20 +133,50 @@
             this.backgroundWorkerCompare.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             this.backgroundWorkerCompare.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorker_RunWorkerCompleted);
             // 
+            // btnOpenScreenshot
+            // 
+            this.btnOpenScreenshot.Location = new System.Drawing.Point(17, 57);
+            this.btnOpenScreenshot.Name = "btnOpenScreenshot";
+            this.btnOpenScreenshot.Size = new System.Drawing.Size(98, 31);
+            this.btnOpenScreenshot.TabIndex = 30;
+            this.btnOpenScreenshot.Text = "Ordner wählen";
+            this.btnOpenScreenshot.UseVisualStyleBackColor = true;
+            this.btnOpenScreenshot.Click += new System.EventHandler(this.btnOpenScreenshot_Click);
+            // 
+            // textBoxScreenshotPath
+            // 
+            this.textBoxScreenshotPath.Location = new System.Drawing.Point(17, 31);
+            this.textBoxScreenshotPath.Name = "textBoxScreenshotPath";
+            this.textBoxScreenshotPath.ReadOnly = true;
+            this.textBoxScreenshotPath.Size = new System.Drawing.Size(539, 20);
+            this.textBoxScreenshotPath.TabIndex = 29;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(339, 13);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "Pfadangabe zu Screenshots von zu überprüfenden PDF Dokumenten:";
+            // 
             // Compare
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 661);
             this.ControlBox = false;
+            this.Controls.Add(this.btnOpenScreenshot);
+            this.Controls.Add(this.textBoxScreenshotPath);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.progressBarCompare);
             this.Controls.Add(this.textBoxAllCompare);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxValidCompare);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.btnOpenPdf);
-            this.Controls.Add(this.textBoxPdfPath);
+            this.Controls.Add(this.btnOpenScreenshotValid);
+            this.Controls.Add(this.textBoxScreenshotValidPath);
             this.Controls.Add(this.label5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -158,8 +192,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnOpenPdf;
-        private System.Windows.Forms.TextBox textBoxPdfPath;
+        private System.Windows.Forms.Button btnOpenScreenshotValid;
+        private System.Windows.Forms.TextBox textBoxScreenshotValidPath;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox textBoxValidCompare;
@@ -167,7 +201,11 @@
         private System.Windows.Forms.TextBox textBoxAllCompare;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ProgressBar progressBarCompare;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogPdf;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogValidScreenshot;
         private System.ComponentModel.BackgroundWorker backgroundWorkerCompare;
+        private System.Windows.Forms.Button btnOpenScreenshot;
+        private System.Windows.Forms.TextBox textBoxScreenshotPath;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogScreenshot;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace PdfCertTester
+﻿namespace PdfTester
 {
     partial class Startpage
     {

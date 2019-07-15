@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace PdfCertTester
+namespace PdfTester
 {
     class Config
     {
@@ -31,7 +31,7 @@ namespace PdfCertTester
             }
             catch (Exception e)
             {
-                return "Fehler 102 (Control.createConfig):" + Environment.NewLine + e.ToString();
+                return "Fehler (Control.createConfig):" + Environment.NewLine + e.ToString();
             }
             return "ok";
         }
@@ -53,7 +53,7 @@ namespace PdfCertTester
             }
             catch (Exception e)
             {
-                return "Fehler 103 (Control.readConfig):" + Environment.NewLine + e.ToString();
+                return "Fehler (Control.readConfig):" + Environment.NewLine + e.ToString();
             }
             return str;
         }
@@ -70,7 +70,25 @@ namespace PdfCertTester
             }
             catch (Exception e)
             {
-                return "Fehler 104 (Control.writeConfig):" + Environment.NewLine + e.ToString();
+                return "Fehler (Control.writeConfig):" + Environment.NewLine + e.ToString();
+            }
+            return "ok";
+        }
+
+        public string writeText(string content, string filename)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filename, true))
+                {
+
+                    sw.WriteLine(content);
+                    sw.WriteLine();
+                }
+            }
+            catch (Exception e)
+            {
+                return "Fehler (Control.writeText):" + Environment.NewLine + e.ToString();
             }
             return "ok";
         }

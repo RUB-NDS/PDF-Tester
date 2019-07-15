@@ -1,5 +1,6 @@
-﻿
-namespace PdfCertTester
+﻿using System;
+
+namespace PdfTester
 {
     class Control
     {
@@ -12,6 +13,7 @@ namespace PdfCertTester
         private ProcessManagement proc;
         private Screenshot shot;
         private Tester test;
+        private Tesseract tess;
 
         public Control()
         {
@@ -24,6 +26,7 @@ namespace PdfCertTester
             proc = new ProcessManagement();
             shot = new Screenshot();
             test = new Tester();
+            tess = new Tesseract();
         }
 
         public string createDebug()
@@ -56,6 +59,11 @@ namespace PdfCertTester
             return conf.writeConfig(content, filename);
         }
 
+        public string writeText(string content, string filename)
+        {
+            return conf.writeText(content, filename);
+        }
+
         public string processStart(string filename, string argument)
         {
             return proc.processStart(filename, argument);
@@ -71,9 +79,14 @@ namespace PdfCertTester
             return shot.makeScreenshot(path);
         }
 
-        public string Compare(string img1, string img2)
+        public string Compare(string img1, string img2, string maxHeight)
         {
-            return test.compare(img1, img2);
+            return test.compare(img1, img2, maxHeight);
+        }
+
+        public string startOcr(string tesseractPath, string image, string language, Boolean large)
+        {
+            return tess.startOcr(tesseractPath, image, language, large);
         }
 
 

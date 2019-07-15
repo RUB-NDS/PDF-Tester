@@ -9,7 +9,7 @@ using System;
 using System.Windows;
 using System.Drawing;
 
-namespace PdfCertTester
+namespace PdfTester
 {
     class Screenshot
     {

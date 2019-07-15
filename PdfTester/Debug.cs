@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace PdfCertTester
+namespace PdfTester
 {
     class Debug
     {
@@ -39,7 +39,7 @@ namespace PdfCertTester
         {
             try
             {
-                using (StreamWriter sw = File.CreateText(path + filename))
+                using (StreamWriter sw = new StreamWriter(path + filename, true))
                 {
                     sw.WriteLine(DateTime.Now + Environment.NewLine + text + Environment.NewLine);
                 }

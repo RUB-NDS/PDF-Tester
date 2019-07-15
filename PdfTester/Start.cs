@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PdfCertTester
+namespace PdfTester
 {
     static class Start
     {

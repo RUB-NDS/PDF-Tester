@@ -7,17 +7,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace PdfCertTester
+namespace PdfTester
 {
     public partial class Startpage : Form
     {
+        private string path;
         private string programListFilename;
         private string pdfPathFilename;
-        private string screenshotPathFilename;
-        private string pdfValidPathFilename;
+        private string screenshotPathStartFilename;
+        private string screenshotPathValidFilename;
+        private string screenshotPathCompareFilename;
+        private string screenshotPathOcrFilename;
+        private string txtPathFilename;
+        private string searchStringsFilename;
+        private string tesseractPathFilename;
         private string settingsFilename;
         private string pdfFilename;
-        private string pdfFilenameNew;
         private string libreOfficeLockFile;
         private string error;
         private string info;
@@ -29,13 +34,18 @@ namespace PdfCertTester
         {
             InitializeComponent();
 
+            path = Names.path;
             programListFilename = Names.programListFilename;
             pdfPathFilename = Names.pdfPathFilename;
-            screenshotPathFilename = Names.screenshotPathFilename;
-            pdfValidPathFilename = Names.pdfValidPathFilename;
+            screenshotPathStartFilename = Names.screenshotPathStartFilename;
+            screenshotPathCompareFilename = Names.screenshotPathCompareFilename;
+            screenshotPathValidFilename = Names.screenshotPathValidFilename;
+            screenshotPathOcrFilename = Names.screenshotPathOcrFilename;
+            txtPathFilename = Names.txtPathFilename;
+            searchStringsFilename = Names.searchStringsFilename;
+            tesseractPathFilename = Names.tesseractPathFilename;
             settingsFilename = Names.settingsFilename;
             pdfFilename = Names.pdfFilename;
-            pdfFilenameNew = Names.pdfFilenameNew;
             libreOfficeLockFile = Names.libreOfficeLockFile;
             error = Names.error;
             info = Names.info;
@@ -67,7 +77,23 @@ namespace PdfCertTester
             if (result != "ok")
                 MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            result = con.createConfig(screenshotPathFilename);
+            result = con.createConfig(screenshotPathStartFilename);
+            if (result != "ok")
+                MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            result = con.createConfig(screenshotPathCompareFilename);
+            if (result != "ok")
+                MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            result = con.createConfig(screenshotPathValidFilename);
+            if (result != "ok")
+                MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            result = con.createConfig(screenshotPathOcrFilename);
+            if (result != "ok")
+                MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            result = con.createConfig(txtPathFilename);
             if (result != "ok")
                 MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -75,9 +101,26 @@ namespace PdfCertTester
             if (result != "ok")
                 MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            result = con.createConfig(pdfValidPathFilename);
+            result = con.createConfig(searchStringsFilename);
             if (result != "ok")
                 MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            result = con.createConfig(tesseractPathFilename);
+            if (result != "ok")
+                MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            result = con.readConfig(tesseractPathFilename);
+            if (result.Length > 5)
+            {
+                if (result.Substring(0, 6) == error)
+                    MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                result = con.writeConfig(path + "tesseract", tesseractPathFilename);
+                if (result != "ok")
+                    MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             result = con.readConfig(programListFilename);
             if (result.Length > 5)
@@ -99,7 +142,7 @@ namespace PdfCertTester
             }
             textBoxPdfPath.Text = textBoxPdfPath.Text.Trim();
 
-            result = con.readConfig(screenshotPathFilename);
+            result = con.readConfig(screenshotPathStartFilename);
             if (result.Length > 5)
             {
                 if (result.Substring(0, 6) == error)
@@ -134,7 +177,7 @@ namespace PdfCertTester
         {
             string result, pdfName, programName, programFile;
             string[] seperator = { "\r\n" };
-            int id, waitTime1, waitTime2;
+            int waitTime1, waitTime2;
 
             t = 0;
 
@@ -197,12 +240,13 @@ namespace PdfCertTester
                         //Fenster minimieren
                         MdiParent.WindowState = FormWindowState.Minimized;
 
-                        progressBarStart.Maximum = (Directory.GetFiles(pdfPath.Trim()).Length * programList.Split(seperator, StringSplitOptions.None).Length);
+                        progressBarStart.Maximum = (Directory.GetFiles(pdfPath.Trim(), "*.pdf").Length * programList.Split(seperator, StringSplitOptions.None).Length);
 
                         //LibreOffice Lock-File löschen
                         if (File.Exists(pdfPath + libreOfficeLockFile))
                             File.Delete(pdfPath + libreOfficeLockFile);
 
+                        string pdfFilenameNew = @"\PDF-Tester-Dokument_" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".pdf";
                         //Bei gleichem Dateinamen: umbenennen
                         if (File.Exists(pdfPath + pdfFilename))
                             File.Move(pdfPath + pdfFilename, pdfPath + pdfFilenameNew);
@@ -295,7 +339,7 @@ namespace PdfCertTester
             if (result != "ok")
                 MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            result = con.writeConfig(textBoxScreenshotsPath.Text, screenshotPathFilename);
+            result = con.writeConfig(textBoxScreenshotsPath.Text, screenshotPathStartFilename);
             if (result != "ok")
                 MessageBox.Show(result, error, MessageBoxButtons.OK, MessageBoxIcon.Error);   
         }

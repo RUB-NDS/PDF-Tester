@@ -6,32 +6,45 @@ using System;
 using System.Drawing;
 
 
-namespace PdfCertTester
+namespace PdfTester
 {
     class Tester
     {
-        public string compare(string image1, string image2)
+        public string compare(string image1, string image2, string maxHeight)
         {
             try
             {
-                int maxHeight = Names.maxHeight;
                 Bitmap img1 = new Bitmap(image1);
                 Bitmap img2 = new Bitmap(image2);
+                int intMaxHeight = 0;
+
+                try
+                {
+                    intMaxHeight = Convert.ToInt32(maxHeight);
+                }
+                catch (Exception e)
+                {
+                    return "Fehler beim Konvertieren von maxHeight: '" + maxHeight + "' (Tester.compare):" + Environment.NewLine + e.ToString();
+                }
+
+                if (img1.Height < intMaxHeight || img2.Height < intMaxHeight)
+                {
+                    if (img1.Height <= img2.Height)
+                        intMaxHeight = img1.Height;
+                    else if (img1.Height > img2.Height)
+                        intMaxHeight = img2.Height;
+                }
 
                 if (img1.Width != img2.Width)
                 {
                     return "Fehler: Screenshots müssen die gleiche Breite besitzen.";
-                }
-                else if (img1.Height < maxHeight || img2.Height < maxHeight)
-                {
-                    return "Fehler: Screenshot besitzt nicht die Mindesthöhe von:" + maxHeight.ToString() + " Pixeln.";
                 }
                 else
                 {
 
                     double diff = 0;
 
-                    for (int y = 0; y < maxHeight; y++)
+                    for (int y = 0; y < intMaxHeight; y++)
                     {
                         for (int x = 0; x < img1.Width; x++)
                         {
@@ -43,13 +56,13 @@ namespace PdfCertTester
                             diff += Math.Abs(pixel1.B - pixel2.B);
                         }
                     }
-                    string result = (100 * (diff / 255) / (img1.Width * maxHeight * 3)).ToString();
+                    string result = (100 * (diff / 255) / (img1.Width * intMaxHeight * 3)).ToString();
                     return result;
                 }
             }
             catch (Exception e)
             {
-                return "Fehler (Tester.compare):" + Environment.NewLine + e.ToString(); ;
+                return "Fehler (Tester.compare):" + Environment.NewLine + e.ToString();
             }
         }
     }

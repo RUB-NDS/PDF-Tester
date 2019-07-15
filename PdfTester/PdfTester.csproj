@@ -27,6 +27,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -83,6 +85,13 @@
     <Compile Include="Compare.Designer.cs">
       <DependentUpon>Compare.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ocr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ocr.Designer.cs">
+      <DependentUpon>Ocr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tesseract.cs" />
     <Compile Include="Tester.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Debug.cs" />
@@ -115,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui.resx">
       <DependentUpon>Gui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ocr.resx">
+      <DependentUpon>Ocr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>

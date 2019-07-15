@@ -1,4 +1,4 @@
-﻿namespace PdfCertTester
+﻿namespace PdfTester
 {
     partial class Gui
     {
@@ -31,9 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gui));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vergleichToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.einstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vergleichToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oCRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,6 +43,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripMenuItem,
             this.vergleichToolStripMenuItem,
+            this.oCRToolStripMenuItem,
             this.einstellungenToolStripMenuItem,
             this.beendenToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -57,6 +59,13 @@
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.StartToolStripMenuItem_Click);
             // 
+            // vergleichToolStripMenuItem
+            // 
+            this.vergleichToolStripMenuItem.Name = "vergleichToolStripMenuItem";
+            this.vergleichToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.vergleichToolStripMenuItem.Text = "Vergleich";
+            this.vergleichToolStripMenuItem.Click += new System.EventHandler(this.VergleichToolStripMenuItem_Click);
+            // 
             // einstellungenToolStripMenuItem
             // 
             this.einstellungenToolStripMenuItem.Name = "einstellungenToolStripMenuItem";
@@ -71,12 +80,12 @@
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.BeendenToolStripMenuItem_Click);
             // 
-            // vergleichToolStripMenuItem
+            // oCRToolStripMenuItem
             // 
-            this.vergleichToolStripMenuItem.Name = "vergleichToolStripMenuItem";
-            this.vergleichToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.vergleichToolStripMenuItem.Text = "Vergleich";
-            this.vergleichToolStripMenuItem.Click += new System.EventHandler(this.VergleichToolStripMenuItem_Click);
+            this.oCRToolStripMenuItem.Name = "oCRToolStripMenuItem";
+            this.oCRToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.oCRToolStripMenuItem.Text = "OCR";
+            this.oCRToolStripMenuItem.Click += new System.EventHandler(this.OCRToolStripMenuItem_Click);
             // 
             // Gui
             // 
@@ -103,5 +112,6 @@
         private System.Windows.Forms.ToolStripMenuItem einstellungenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vergleichToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oCRToolStripMenuItem;
     }
 }
