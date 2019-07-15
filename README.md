@@ -1,6 +1,9 @@
 PDF Tester
 
 
+Installationsprogramm: PdfTester_Setup.exe entpackt die benötigten Daten selbstständig und erstellt eine Programmverknüpfung auf der Desktop.
+
+
 Funktionen:
 Automatisch PDF Betrachtungsprogramme mit PDF Dokument aufrufen, Screenshot anfertigen, Screenshotvergleich, OCR Texterkennung
 
