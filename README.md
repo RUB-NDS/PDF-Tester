@@ -76,6 +76,11 @@ Suchbegriffe:
 In diesem Textfeld muss der zu suchende Begriff eingegeben werden. Bsp. "signature is valid".
 Das Programm sucht im gescannten Inhalt nach den eingetragenen Suchbegriffen und stellt sie in der entsprechenden Textbox dar.
 
+Führe OCR Texterkennung zusätzlich mit hochskaliertem Screenshot durch:
+Es kann vorkommen, dass die Screenshot Qualtität nicht ausreicht, um ein optimales Ergebnis bei der Texterkennung zu erzielen.
+Durch einen zweiten Durchlauf mit einem hochskalierten Screenshot, kann die Texterkennung verbessert werden.
+Die Option verlängert die Verarbeitung pro Bild um ca. den Faktor 2,5.
+
 
 [Einstellungen]
 
@@ -105,14 +110,17 @@ Es wird empfohlen die Screenshots in englischer Sprache anzufertigen und das eng
 
 Pfadangabe zum Tesseract Ordner:
 Hier kann der Tesseract Programmordner ausgewählt werden.
-Standardmäßig entpackt die Datei PdfTester_Setup.exe die Dateien unter "C:\Users\USERNAME\AppData\Local\PdfTester\tesseract".
+Standardmäßig entpackt die Datei PdfTester_Setup_32-Bit.exe / PdfTester_Setup_64-Bit.exe die Dateien unter "C:\Users\USERNAME\AppData\Local\PdfTester\tesseract".
 Unterhalb des tesseract-Ordners müssen die Sprachpakete im Ordner "tessdata" liegen.
-
+ 
 
 Hinweise:
 Die PdfTester.exe ist digital signiert, um Sicherheitsmeldungen durch PDF Betrachtungsprogrammen vorzubeugen.
 Das Zertifikat muss dem Rechner als Vertrauenswürdige Stammzertifizierungsstelle hinzugefügt werden.
-Die Datei "PdfTester_Setup_64-Bit.exe" enthält das Tesseract Programm in der 64 Bit Variante und liefert auf 64 Bit Systemen eine schnellere Verarbeitung.
+Die Datei "PdfTester_Setup_64-Bit.exe" enthält das Tesseract Programm in der 64 Bit Variante und liefert auf 64 Bit Systemen eine etwas schnellere Verarbeitung.
+Im Ordner tesseract/tessdata liegen die Dateien "eng.traineddata" und "deu.traineddata". Diese stammen aus den Sprachpaketen "tessdata-best".
+Um die Verarbeitung zu beschleunigen, können die Sprachpakete aus tesseract/tessdata/FastLanguage in tesseract/tessdata verschoben werden.
+Allerdings kann dies zu einer Verschlechterung der Texterkennung führen.
  
 
 Tesseract Programmdaten:
