@@ -122,6 +122,7 @@ namespace PdfTester
             btnOpenScreenshot.Enabled = false;
             btnOpenTxt.Enabled = false;
             textBoxSearchStrings.Enabled = false;
+            checkBoxLargeImg.Enabled = false;
             progressBarOcr.Value = progressBarOcr.Minimum;
             textBoxFounds.Text = "";
             textBoxInformations.Text = "";
@@ -217,6 +218,7 @@ namespace PdfTester
             btnOpenScreenshot.Enabled = true;
             btnOpenTxt.Enabled = true;
             textBoxSearchStrings.Enabled = true;
+            checkBoxLargeImg.Enabled = true;
         }
 
         private void BackgroundWorkerOcr_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
