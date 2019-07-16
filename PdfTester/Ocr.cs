@@ -3,9 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -169,6 +167,11 @@ namespace PdfTester
                             else
                             {
                                 string txtFilename = textBoxTxtPath.Text.Trim() + @"\PDF-Tester_OCR-Texterkennung_" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".txt";
+                                string largeImg = "false";
+
+                                //Texterkennung zusätzlich mit vergrößertem Screenshot
+                                if (checkBoxLargeImg.Checked == true)
+                                    largeImg = "true";
 
                                 IEnumerable<string> count = Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*").Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff"));
 
@@ -181,7 +184,7 @@ namespace PdfTester
                                         await Task.Delay(500);
                                     }
 
-                                    backgroundWorkerOcr.RunWorkerAsync(txtFilename + ";" + tesseractPath + ";" + pdfDoc + ";" + language);
+                                    backgroundWorkerOcr.RunWorkerAsync(txtFilename + ";" + tesseractPath + ";" + pdfDoc + ";" + language + ";" + largeImg);
 
                                     while (backgroundWorkerOcr.IsBusy == true)
                                     {
@@ -246,13 +249,16 @@ namespace PdfTester
             string[] argument = e.Argument.ToString().Split(';');
             string[] filename = argument[2].Split('\\');
             string txtFilename = argument[0];
+            string largeImg = argument[4];
             string searchStrings = textBoxSearchStrings.Text;
             string[] result = new string[2];
 
-            //Texterkennung mit normalem und  vergrößertem Screenshot
             Boolean large = false;
-            int choice, t = 0;
-            for (int i = 0; i < 2; i++)
+            int choice, end = 1, t = 0;
+            //Führt OCR Erkennung zusätzlich mit größerer Auflösung aus, falls Wert auf "true" gesetzt ist.
+            if (largeImg == "true")
+                end = 2;
+            for (int i = 0; i < end; i++)
             {
                 result[i] = con.startOcr(argument[1], argument[2], argument[3], large);
                 if (result[i].Length > 5)
@@ -291,11 +297,16 @@ namespace PdfTester
             }
             if (t == 0)
             {
-                //Verhindert, dass ein leeren String übergeben wird.
-                if (result[1].Trim() == "")
-                    choice = 0;
+                if (largeImg == "true")
+                {
+                    //Verhindert, dass ein leeren String übergeben wird.
+                    if (result[1].Trim() == "")
+                        choice = 0;
+                    else
+                        choice = 1;
+                }
                 else
-                    choice = 1;
+                    choice = 0;
                 con.writeText("Dateiname: " + filename[filename.Length - 1] + " | Suchbegriff gefunden: nein | Suchbegriff: - | Inhalt:" + Environment.NewLine + "<START>" + Environment.NewLine + result[choice].Trim() + Environment.NewLine + "<ENDE>", txtFilename);
                 e.Result = "Nichts gefunden;" + filename[filename.Length - 1];
             }  

@@ -45,6 +45,7 @@
             this.folderBrowserDialogScreenshot = new System.Windows.Forms.FolderBrowserDialog();
             this.folderBrowserDialogTxt = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorkerOcr = new System.ComponentModel.BackgroundWorker();
+            this.checkBoxLargeImg = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnOpenScreenshot
@@ -180,12 +181,24 @@
             this.backgroundWorkerOcr.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorkerOcr_DoWork);
             this.backgroundWorkerOcr.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorkerOcr_RunWorkerCompleted);
             // 
+            // checkBoxLargeImg
+            // 
+            this.checkBoxLargeImg.AutoSize = true;
+            this.checkBoxLargeImg.Location = new System.Drawing.Point(598, 125);
+            this.checkBoxLargeImg.Name = "checkBoxLargeImg";
+            this.checkBoxLargeImg.Size = new System.Drawing.Size(437, 17);
+            this.checkBoxLargeImg.TabIndex = 45;
+            this.checkBoxLargeImg.Text = "Führe OCR Texterkennung zusätzlich mit hochskaliertem Screenshot durch (langsamer" +
+    ")";
+            this.checkBoxLargeImg.UseVisualStyleBackColor = true;
+            // 
             // Ocr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 661);
             this.ControlBox = false;
+            this.Controls.Add(this.checkBoxLargeImg);
             this.Controls.Add(this.btnOpenTxt);
             this.Controls.Add(this.textBoxTxtPath);
             this.Controls.Add(this.label5);
@@ -231,5 +244,6 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogScreenshot;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogTxt;
         private System.ComponentModel.BackgroundWorker backgroundWorkerOcr;
+        private System.Windows.Forms.CheckBox checkBoxLargeImg;
     }
 }
