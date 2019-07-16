@@ -1,7 +1,7 @@
 PDF Tester
 
 
-Installationsprogramm: PdfTester_Setup.exe entpackt die benötigten Daten selbstständig und erstellt eine Programmverknüpfung auf dem Desktop.
+Installationsprogramm: PdfTester_Setup_32-Bit.exe / PdfTester_Setup_64-Bit.exe entpackt die benötigten Daten selbstständig und erstellt eine Programmverknüpfung auf dem Desktop.
 
 
 Funktionen:
@@ -112,11 +112,12 @@ Unterhalb des tesseract-Ordners müssen die Sprachpakete im Ordner "tessdata" li
 Hinweise:
 Die PdfTester.exe ist digital signiert, um Sicherheitsmeldungen durch PDF Betrachtungsprogrammen vorzubeugen.
 Das Zertifikat muss dem Rechner als Vertrauenswürdige Stammzertifizierungsstelle hinzugefügt werden.
+Die Datei "PdfTester_Setup_64-Bit.exe" enthält das Tesseract Programm in der 64 Bit Variante und liefert auf 64 Bit Systemen eine schnellere Verarbeitung.
  
 
 Tesseract Programmdaten:
 https://github.com/UB-Mannheim/tesseract/wiki
 
-Tesseract Sprachpakete:
+Tesseract Sprachpakete ("tessdata-best" liefern zuverlässigere Ergebnisse):
 https://github.com/tesseract-ocr
 
