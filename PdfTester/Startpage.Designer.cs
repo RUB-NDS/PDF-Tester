@@ -48,6 +48,7 @@
             this.textBoxProgamList = new System.Windows.Forms.TextBox();
             this.btnOpenDebug = new System.Windows.Forms.Button();
             this.backgroundWorkerStart = new System.ComponentModel.BackgroundWorker();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -206,6 +207,19 @@
             this.backgroundWorkerStart.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             this.backgroundWorkerStart.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorker_RunWorkerCompleted);
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnCancel.Location = new System.Drawing.Point(593, 496);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(560, 58);
+            this.btnCancel.TabIndex = 21;
+            this.btnCancel.Text = "Verarbeitung abbrechen";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
             // Startpage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,6 +227,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1184, 661);
             this.ControlBox = false;
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOpenDebug);
             this.Controls.Add(this.textBoxProgamList);
             this.Controls.Add(this.progressBarStart);
@@ -262,6 +277,7 @@
         private System.Windows.Forms.TextBox textBoxProgamList;
         private System.Windows.Forms.Button btnOpenDebug;
         private System.ComponentModel.BackgroundWorker backgroundWorkerStart;
+        private System.Windows.Forms.Button btnCancel;
     }
 }
 

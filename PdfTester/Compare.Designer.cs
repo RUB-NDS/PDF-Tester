@@ -43,6 +43,7 @@
             this.textBoxScreenshotPath = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.folderBrowserDialogScreenshot = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnOpenScreenshotValid
@@ -160,12 +161,26 @@
             this.label2.TabIndex = 28;
             this.label2.Text = "Pfadangabe zu Screenshots von zu überprüfenden PDF Dokumenten:";
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnCancel.Location = new System.Drawing.Point(598, 57);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(560, 58);
+            this.btnCancel.TabIndex = 31;
+            this.btnCancel.Text = "Verarbeitung abbrechen";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
             // Compare
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 661);
             this.ControlBox = false;
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOpenScreenshot);
             this.Controls.Add(this.textBoxScreenshotPath);
             this.Controls.Add(this.label2);
@@ -207,5 +222,6 @@
         private System.Windows.Forms.TextBox textBoxScreenshotPath;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogScreenshot;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

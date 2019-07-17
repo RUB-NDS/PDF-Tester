@@ -26,7 +26,11 @@ namespace PdfTester
         private string libreOfficeLockFile;
         private string error;
         private string info;
+        private string orgCancelText;
+
         private int t;
+
+        private Boolean cancel;
 
         private Control con;
 
@@ -62,6 +66,13 @@ namespace PdfTester
             progressBarStart.Value = progressBarStart.Minimum;
             progressBarStart.Step = 1;
             progressBarStart.Visible = true;
+
+            btnCancel.Enabled = false;
+            btnCancel.Visible = false;
+
+            orgCancelText = btnCancel.Text;
+
+            cancel = false;
 
             string result;
 
@@ -188,6 +199,14 @@ namespace PdfTester
             btnStart.Enabled = false;
             btnSaveAll.Enabled = false;
             btnOpenDebug.Enabled = false;
+            btnCancel.Enabled = true;
+
+            btnStart.Visible = false;
+            btnCancel.Visible = true;
+
+            btnCancel.Text = orgCancelText;
+
+            cancel = false;
 
 
             BtnSaveAll_Click(sender, e);
@@ -253,6 +272,9 @@ namespace PdfTester
 
                         foreach (string pdfDoc in Directory.GetFiles(pdfPath, "*.pdf"))
                         {
+                            if (cancel == true)
+                                break;
+
                             pdfName = Path.GetFileNameWithoutExtension(pdfDoc);
 
                             //PDF Dokumentname für Screenshot ändern
@@ -260,6 +282,9 @@ namespace PdfTester
 
                             foreach (string program in programList.Split(seperator, StringSplitOptions.None))
                             {
+                                if (cancel == true)
+                                    break;
+
                                 if (program.Contains(';'))
                                 {
                                     string[] split = program.Split(';');
@@ -291,7 +316,7 @@ namespace PdfTester
 
                             //LibreOffice Lock-File löschen
                             if (File.Exists(pdfPath + libreOfficeLockFile))
-                                File.Delete(pdfPath + libreOfficeLockFile);
+                                File.Delete(pdfPath + libreOfficeLockFile);   
                         }
                     }
                     catch (Exception e1)
@@ -318,12 +343,23 @@ namespace PdfTester
             btnStart.Enabled = true;
             btnSaveAll.Enabled = true;
             btnOpenDebug.Enabled = true;
+            btnCancel.Enabled = false;
+
+            btnStart.Visible = true;
+            btnCancel.Visible = false;
 
             //Fenster anzeigen
             MdiParent.WindowState = FormWindowState.Normal;
 
         }
 
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            btnCancel.Enabled = false;
+            btnCancel.Text = "Verarbeitung wird abgebrochen...";
+            cancel = true;
+            backgroundWorkerStart.CancelAsync();
+        }
 
         private void BtnSaveAll_Click(object sender, EventArgs e)
         {
@@ -371,6 +407,9 @@ namespace PdfTester
         {
             string[] arg = e.Argument.ToString().Split(';');
             string result = con.processStart(arg[0], arg[1]);
+
+            BackgroundWorker worker = sender as BackgroundWorker;
+
             if (result.Length > 5)
             {
                 if (result.Substring(0, 6) == error)
@@ -383,11 +422,20 @@ namespace PdfTester
                 try
                 {
                     int id = Convert.ToInt32(result);
-                    Thread.Sleep(Convert.ToInt32(arg[3]) * 1000);
+
+                    //Prüft alle Wartezeit/20 Sekunden, ob der Vorgang abgebrochen wurde.
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (worker.CancellationPending == true)
+                            break;
+                        else
+                            Thread.Sleep(Convert.ToInt32(arg[3]) * (1000/20));
+                    }
 
                     con.makeScreenshot(arg[2]);
 
                     con.processStop(id);
+
                     Thread.Sleep(Convert.ToInt32(arg[4]) * 1000);
                     e.Result = result;
                 }

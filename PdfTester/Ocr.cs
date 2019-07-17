@@ -20,6 +20,9 @@ namespace PdfTester
         private string settingsFilename;
         private string error;
         private string info;
+        private string orgCancelText;
+
+        private Boolean cancel;
 
         private Control con;
 
@@ -48,6 +51,13 @@ namespace PdfTester
             progressBarOcr.Value = progressBarOcr.Minimum;
             progressBarOcr.Step = 1;
             progressBarOcr.Visible = true;
+
+            btnCancel.Enabled = false;
+            btnCancel.Visible = false;
+
+            orgCancelText = btnCancel.Text;
+
+            cancel = false;
 
             string result = con.readConfig(screenshotPathOcrFilename);
             if (result.Length > 5)
@@ -123,6 +133,14 @@ namespace PdfTester
             btnOpenTxt.Enabled = false;
             textBoxSearchStrings.Enabled = false;
             checkBoxLargeImg.Enabled = false;
+            btnCancel.Enabled = true;
+
+            btnStart.Visible = false;
+            btnCancel.Visible = true;
+
+            btnCancel.Text = orgCancelText;
+
+            cancel = false;
             progressBarOcr.Value = progressBarOcr.Minimum;
             textBoxFounds.Text = "";
             textBoxInformations.Text = "";
@@ -180,6 +198,9 @@ namespace PdfTester
 
                                 foreach (string pdfDoc in Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*").Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff")))
                                 {
+                                    if (cancel == true)
+                                        break;
+
                                     while (backgroundWorkerOcr.IsBusy == true)
                                     {
                                         await Task.Delay(500);
@@ -219,6 +240,18 @@ namespace PdfTester
             btnOpenTxt.Enabled = true;
             textBoxSearchStrings.Enabled = true;
             checkBoxLargeImg.Enabled = true;
+            btnCancel.Enabled = false;
+
+            btnStart.Visible = true;
+            btnCancel.Visible = false;
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            btnCancel.Enabled = false;
+            btnCancel.Text = "Verarbeitung wird abgebrochen...";
+            cancel = true;
+            backgroundWorkerOcr.CancelAsync();
         }
 
         private void BackgroundWorkerOcr_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -244,6 +277,7 @@ namespace PdfTester
                     }
                 }
             }
+            
         }
 
         private void BackgroundWorkerOcr_DoWork(object sender, DoWorkEventArgs e)
@@ -255,6 +289,8 @@ namespace PdfTester
             string searchStrings = textBoxSearchStrings.Text;
             string[] result = new string[2];
 
+            BackgroundWorker worker = sender as BackgroundWorker;
+
             Boolean large = false;
             int choice, end = 1, t = 0;
             //Führt OCR Erkennung zusätzlich mit größerer Auflösung aus, falls Wert auf "true" gesetzt ist.
@@ -262,6 +298,11 @@ namespace PdfTester
                 end = 2;
             for (int i = 0; i < end; i++)
             {
+                //Bricht die Verarbeitung ab
+                if (worker.CancellationPending == true)
+                {
+                    break;
+                }
                 result[i] = con.startOcr(argument[1], argument[2], argument[3], large);
                 if (result[i].Length > 5)
                 {
@@ -299,7 +340,7 @@ namespace PdfTester
             }
             if (t == 0)
             {
-                if (largeImg == "true")
+                if (largeImg == "true" && worker.CancellationPending == false)
                 {
                     //Verhindert, dass ein leeren String übergeben wird.
                     if (result[1].Trim() == "")

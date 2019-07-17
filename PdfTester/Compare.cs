@@ -22,6 +22,9 @@ namespace PdfTester
         private string error;
         private string info;
         private string maxHeight;
+        private string orgCancelText;
+
+        private Boolean cancel;
 
         private double diff;
 
@@ -52,7 +55,14 @@ namespace PdfTester
             progressBarCompare.Value = progressBarCompare.Minimum;
             progressBarCompare.Step = 1;
             progressBarCompare.Visible = true;
-            
+
+            btnCancel.Enabled = false;
+            btnCancel.Visible = false;
+
+            orgCancelText = btnCancel.Text;
+
+            cancel = false;
+
             string result = con.readConfig(screenshotPathCompareFilename);
             if (result.Length > 5)
             {
@@ -116,6 +126,15 @@ namespace PdfTester
             btnStart.Enabled = false;
             btnOpenScreenshot.Enabled = false;
             btnOpenScreenshotValid.Enabled = false;
+            btnCancel.Enabled = true;
+
+            btnStart.Visible = false;
+            btnCancel.Visible = true;
+
+            btnCancel.Text = orgCancelText;
+
+            cancel = false;
+
             progressBarCompare.Value = progressBarCompare.Minimum;
             textBoxValidCompare.Text = "";
             textBoxAllCompare.Text = "";
@@ -169,16 +188,20 @@ namespace PdfTester
 
                         foreach (string pdfDoc in Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*").Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff")))
                         {
+                            if (cancel == true)
+                                break;
+
                             string[] testPdfName = pdfDoc.Split('_');
                             int t = 0;
                             foreach (string pdfDocValid in Directory.GetFiles(textBoxScreenshotValidPath.Text, "*.png"))
                             {
+                                if (cancel == true)
+                                    break;
 
                                 string[] validPdfName = pdfDocValid.Split('_');
                                 if (testPdfName[testPdfName.Length - 2] == validPdfName[validPdfName.Length - 2])
                                 {
                                     t = 1;
-
 
                                     while (backgroundWorkerCompare.IsBusy == true)
                                     {
@@ -193,12 +216,9 @@ namespace PdfTester
                                     }
                                     progressBarCompare.PerformStep();
                                 }
-                                
-
                             }
                             if (t == 0)
                                 textBoxAllCompare.AppendText("Kein Screenshot mit passendem Programmnamen zu: '" + Path.GetFileName(pdfDoc).ToString() + "' vorhanden." + Environment.NewLine);
-
                         }
                     }
                     progressBarCompare.Value = progressBarCompare.Maximum;
@@ -217,6 +237,18 @@ namespace PdfTester
             btnStart.Enabled = true;
             btnOpenScreenshot.Enabled = true;
             btnOpenScreenshotValid.Enabled = true;
+            btnCancel.Enabled = false;
+
+            btnStart.Visible = true;
+            btnCancel.Visible = false;
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            btnCancel.Enabled = false;
+            btnCancel.Text = "Verarbeitung wird abgebrochen...";
+            cancel = true;
+            backgroundWorkerCompare.CancelAsync();
         }
 
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -259,5 +291,7 @@ namespace PdfTester
                 e.Result = name1[name1.Length - 1] + ";" + result;
             } 
         }
+
+        
     }
 }
