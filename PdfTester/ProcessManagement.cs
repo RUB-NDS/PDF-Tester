@@ -43,9 +43,14 @@ namespace PdfTester
                 proc.Kill();
 
                 //Kill soffice.bin from LibreOffice
-                Process[] binProc = Process.GetProcessesByName("soffice.bin");
-                if (binProc.Length > 0)
-                    binProc[0].Kill();
+                Process[] newProc = Process.GetProcessesByName("soffice.bin");
+                if (newProc.Length > 0)
+                    newProc[0].Kill();
+
+                //Kill architect.exe from PDF Architect
+                newProc = Process.GetProcessesByName("architect.exe");
+                if (newProc.Length > 0)
+                    newProc[0].Kill();
 
                 return "ok";
             }
