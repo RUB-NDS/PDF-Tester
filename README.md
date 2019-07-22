@@ -27,24 +27,24 @@ Zusätzlich zum Namen, kann durch die Eingabe eines weiteren Semikolons + anschl
 Da PDF Betrachtungsprogramme unterschiedliche Zeitspannen benötigen, um den Inhalt eines PDF Dokuments anzuzeigen, kann hier eine Wartezeit individuell für jedes PDF Betrachtungsprogramm eingetragen werden.
 Erst nach dieser Wartezeit wird ein Screenshot angefertigt und das Programm geschlossen.
 Wird keine Wartezeit angegeben, so wird die Wartezeit unter [Einstellungen] verwendet.
-<br/>
+<br/><br/>
 PDF Dateien (Pfadangabe):<br/>
 An dieser Stelle muss der Ordner zu den PDF Dateien angegeben werden (Unterordner werden berücksichtigt).
 Die einzelnen Dateien werden als Argument zum Programmstart der Betrachtungsprogramme hinzugefügt.
-<br/>
+<br/><br/>
 Ablageort Screenshot (Pfadangabe):<br/>
 An dieser Stelle muss der Ordner ausgewählt werden, in dem die erstellten Screenshots abgespeichert werden sollen.
 Für jedes PDF Betrachtungsprogramm wird ein Unterordner erstellt.
-<br/>
+<br/><br/>
 PDF Tester starten:<br/>
 Dieser Button startet die Abarbeitung.
 Jedes unter der Pfadangabe gefundene PDF Dokument, wird mit jedem PDF Betrachtungsprogramm in der Programmliste aufgerufen.
 Anschließend wird ein Screenshot erstellt und dieser unter dem gewählten Ablageort gespeichert.
 Der Dateiname des Screenshot setzt sich wie folgt zusammen "PDF-Dateiname + _ + Name in Programmliste + _ + Datum + .png".
-<br/>
+<br/><br/>
 Speichern:<br/>
 Speichert die Programmliste, sowie die Pfadangaben.
-<br/>
+<br/><br/>
 Debug öffnen:<br/>
 Öffnet die Debug-Datei aus der im Fehlerfall weitere Informationen entnommen werden können.
 
@@ -53,15 +53,15 @@ Debug öffnen:<br/>
 
 Hier können Screenshots mit einander verglichen werden.
 Da jeweils Pixel mit Pixel verglichen wird, müssen die zu vergleichenden Screenshots die selbe Pixelbreite aufweisen.
-<br/>
+<br/><br/>
 Pfadangabe zu Screenshots:<br/>
 Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden (Unterordner werden berücksichtigt).
-<br/>
+<br/><br/>
 Pfadangabe zu Screenshots (valide):<br/>
 Einmalig müssen unter [Start] Screenshots erstellt werden, die eine valide Signaturüberprüfung aufweisen.
 Diese Screenshots dienen als Referenz und sollen mit späteren Screenshots von manipulierten PDF Dokumenten vergleichen werden.
 Bei der Pfadangabe werden Unterordner berücksichtigt.
-<br/>
+<br/><br/>
 Screenshot Vergleich starten:<br/>
 Dieser Button startet die Abarbeitung.
 Das Programm liest die Dateinamen in den angegebenen Ordnern ein und vergleicht den enthaltenen Namen des PDF Betrachtungsprogramm.
@@ -75,17 +75,17 @@ Die Ergebnisse werden in den beiden Textboxen ausgegeben.
 
 Hier können Screenshots durch eine OCR Texterkennung eingelesen werden und der Inhalt nach expliziten Suchbegriffen durchsucht werden.
 Für die Texterkennung wird Tesseract in der Version 4 verwendet.
-<br/>
+<br/><br/>
 Pfadangabe zu Screenshots:<br/>
 Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden (Unterordner werden berücksichtigt).
-<br/>
+<br/><br/>
 Pfadangabe zum Speichern des erkannten Textes:<br/>
 Der über die OCR Texterkennung gescannte Inhalt der Screenshots wird für eine spätere Auswertung in der Textdatei geschrieben.
-<br/>
+<br/><br/>
 Suchbegriffe:<br/>
 In diesem Textfeld muss der zu suchende Begriff eingegeben werden. Bsp. "signature is valid".
 Das Programm sucht im gescannten Inhalt nach den eingetragenen Suchbegriffen und stellt sie in der entsprechenden Textbox dar.
-<br/>
+<br/><br/>
 Führe OCR Texterkennung zusätzlich mit hochskaliertem Screenshot durch:<br/>
 Es kann vorkommen, dass die Screenshot Qualtität nicht ausreicht, um ein optimales Ergebnis bei der Texterkennung zu erzielen.
 Durch einen zweiten Durchlauf mit einem hochskalierten Screenshot, kann die Texterkennung verbessert werden.
@@ -98,26 +98,26 @@ Wartezeit bevor das PDF Betrachtungsprogramm geschlossen wird:<br/>
 Je nach Rechenleistung und Betrachtungsprogramms, kann es eine Weile dauern, bis das PDF Betrachtungsprogramm die PDF Datei vollständig geladen hat.
 Erst nach Ablauf dieser Wartezeit, wird der Screenshot [Start] angefertigt.
 Standardwert: 50 Sekunden
-<br/>
+<br/><br/>
 Wartezeit nachdem das PDF Betrachtungsprogramm geschlossen wurde:<br/>
 Je nach Rechenleistung und Betrachtungsprogramms, kann es einen Moment dauern, bis das PDF Betrachtungsprogramm vollständig durch den PDF Tester geschlossen wurde.
 Erst nach Ablauf dieser Wartezeit, das nächste PDF Betrachtungsprogramm aufgerufen.
 Standardwert: 2 Sekunden
-<br/>
+<br/><br/>
 Differenzgrenze für erfolgreichen Screenshotvergleich:<br/>
 Beim Screenshotvergleich [Vergleich], kann es zu minimalen Pixelabweichungen kommen, obwohl der zu überprüfende Screenshot eine valide Signaturprüfung aufweist.
 Die maximale Abweichung kann an dieser Stelle angepasst werden.
 Standardwert: 0,00001 %
-<br/>
+<br/><br/>
 Maximal zu berücksichtigende Bildhöhe:<br/>
 Der relevante Bildausschnitt beim Screenshotvergleich [Vergleich], welcher eine valide bzw. eine invalide Signaturprüfung aufweist, befindet sich i.d.R. im oberen Bildbereich.
 Um den Screenshotvergleich zu beschleuningen, kann der zu berücksichtigende Bildbereich eingeschränkt werden.
 Standardwert: 500 Pixel
-<br/>
+<br/><br/>
 Sprachauswahl OCR-Texterkennung:<br/>
 Für die Texterkennung kann das Sprachpaket ausgewählt werden.
 Es wird empfohlen die Screenshots in englischer Sprache anzufertigen und das englische Sprachpaket "eng" auszuwählen, da hiermit die besten Ergebnisse erzielt werden konnten.
-<br/>
+<br/><br/>
 Pfadangabe zum Tesseract Ordner:<br/>
 Hier kann der Tesseract Programmordner ausgewählt werden.
 Standardmäßig entpackt die Datei PdfTester_Setup_32-Bit.exe / PdfTester_Setup_64-Bit.exe die Dateien unter "C:\Users\USERNAME\AppData\Local\PdfTester\tesseract".
@@ -136,7 +136,7 @@ Allerdings kann dies zu einer Verschlechterung der Texterkennung führen.
  
 Tesseract Programmdaten:<br/>
 https://github.com/UB-Mannheim/tesseract/wiki
-<br/>
+<br/><br/>
 Tesseract Sprachpakete ("tessdata-best" liefern zuverlässigere Ergebnisse):<br/>
 https://github.com/tesseract-ocr
 
