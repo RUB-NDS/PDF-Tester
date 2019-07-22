@@ -6,10 +6,10 @@ PdfTester_Setup_32-Bit.exe / PdfTester_Setup_64-Bit.exe entpackt die benötigten
 
 
 ## Funktionen
-Automatisch PDF Betrachtungsprogramme mit PDF Dokument aufrufen<br/>
-Screenshot anfertigen<br/>
-Screenshotvergleich<br/>
-OCR Texterkennung<br/>
+-Automatisch PDF Betrachtungsprogramme mit PDF Dokument aufrufen<br/>
+-ScreenshotS anfertigen<br/>
+-Screenshotvergleich<br/>
+-OCR Texterkennung<br/>
 
 
 ## Speicherort
