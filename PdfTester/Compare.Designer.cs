@@ -99,9 +99,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(14, 215);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(173, 13);
+            this.label3.Size = new System.Drawing.Size(119, 13);
             this.label3.TabIndex = 23;
-            this.label3.Text = "Erfolgreiche Vergleiche + Differenz:";
+            this.label3.Text = "Erfolgreiche Vergleiche:";
             // 
             // textBoxAllCompare
             // 
@@ -118,9 +118,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(595, 133);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(145, 13);
+            this.label1.Size = new System.Drawing.Size(91, 13);
             this.label1.TabIndex = 25;
-            this.label1.Text = "Gesamter Verlauf + Differenz:";
+            this.label1.Text = "Gesamter Verlauf:";
             // 
             // progressBarCompare
             // 

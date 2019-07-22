@@ -186,7 +186,7 @@ namespace PdfTester
 
         private async void BtnStart_Click(object sender, EventArgs e)
         {
-            string result, pdfName, programName, programFile;
+            string result, pdfName, programName, programFile, name;
             string[] seperator = { "\r\n" };
             int waitTime1, waitTime1Settings, waitTime2Settings;
 
@@ -259,7 +259,7 @@ namespace PdfTester
                         //Fenster minimieren
                         MdiParent.WindowState = FormWindowState.Minimized;
 
-                        progressBarStart.Maximum = (Directory.GetFiles(pdfPath.Trim(), "*.pdf").Length * programList.Split(seperator, StringSplitOptions.None).Length);
+                        progressBarStart.Maximum = (Directory.GetFiles(pdfPath.Trim(), "*.pdf", SearchOption.AllDirectories).Length * programList.Split(seperator, StringSplitOptions.None).Length);
 
                         //LibreOffice Lock-File löschen
                         if (File.Exists(pdfPath + libreOfficeLockFile))
@@ -269,7 +269,7 @@ namespace PdfTester
                         if (File.Exists(pdfPath + pdfFilename))
                             File.Delete(pdfPath + pdfFilename);
 
-                        foreach (string pdfDoc in Directory.GetFiles(pdfPath, "*.pdf"))
+                        foreach (string pdfDoc in Directory.GetFiles(pdfPath, "*.pdf", SearchOption.AllDirectories))
                         {
                             if (cancel == true)
                                 break;
@@ -290,7 +290,6 @@ namespace PdfTester
                                 {
                                     string[] split = program.Split(';');
                                     programFile = split[0];
-                                    programName = pdfName + "_" + split[1] + "_" + DateTime.Now.ToString("yyyyMMdd") + ".png";
 
                                     if (split.Length > 2)
                                     {
@@ -302,20 +301,40 @@ namespace PdfTester
                                         {
                                             waitTime1 = waitTime1Settings;
                                         }
+                                        name = split[1];
+                                        programName = pdfName + "_" + split[1] + "_" + DateTime.Now.ToString("yyyyMMdd") + ".png";
+                                    }
+                                    else
+                                    {
+                                        try
+                                        {
+                                            waitTime1 = Convert.ToInt32(split[1]);
+                                            name = Path.GetFileNameWithoutExtension(programFile);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            waitTime1 = waitTime1Settings;
+                                            name = split[1];
+                                        }
+                                        programName = pdfName + "_" + name + "_" + DateTime.Now.ToString("yyyyMMdd") + ".png";
                                     }
                                 }
                                 else
                                 {
+                                    name = Path.GetFileNameWithoutExtension(program);
                                     programFile = program;
-                                    programName = pdfName + "_" + Path.GetFileNameWithoutExtension(program) + "_" + DateTime.Now.ToString("yyyyMMdd") + ".png";
+                                    programName = pdfName + "_" + name + "_" + DateTime.Now.ToString("yyyyMMdd") + ".png";
                                 }
+
+                                if (!Directory.Exists(screenshotPath + "\\" + name))
+                                    Directory.CreateDirectory(screenshotPath + "\\" + name);
 
                                 while (backgroundWorkerStart.IsBusy == true)
                                 {
                                     await Task.Delay(500);
                                 }
 
-                                backgroundWorkerStart.RunWorkerAsync(programFile + ";" + pdfPath + pdfFilename + ";" + screenshotPath + "\\" + programName + ";" + waitTime1.ToString() + ";" + waitTime2Settings.ToString());
+                                backgroundWorkerStart.RunWorkerAsync(programFile + ";" + pdfPath + pdfFilename + ";" + screenshotPath + "\\" + name + "\\" + programName + ";" + waitTime1.ToString() + ";" + waitTime2Settings.ToString());
 
                                 while (backgroundWorkerStart.IsBusy == true)
                                 {

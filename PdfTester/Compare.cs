@@ -182,18 +182,18 @@ namespace PdfTester
                         MessageBox.Show("Fehler: der Screenshot Pfad '" + textBoxScreenshotValidPath.Text + "' exisiert nicht.", error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                     {
-                        IEnumerable<string> count = Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*").Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff"));
+                        IEnumerable<string> count = Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff"));
 
                         progressBarCompare.Maximum = count.Count();
 
-                        foreach (string pdfDoc in Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*").Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff")))
+                        foreach (string pdfDoc in Directory.GetFiles(textBoxScreenshotPath.Text.Trim(), "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp") || s.EndsWith(".tif") || s.EndsWith(".tiff")))
                         {
                             if (cancel == true)
                                 break;
 
                             string[] testPdfName = pdfDoc.Split('_');
                             int t = 0;
-                            foreach (string pdfDocValid in Directory.GetFiles(textBoxScreenshotValidPath.Text, "*.png"))
+                            foreach (string pdfDocValid in Directory.GetFiles(textBoxScreenshotValidPath.Text, "*.png", SearchOption.AllDirectories))
                             {
                                 if (cancel == true)
                                     break;
@@ -284,11 +284,11 @@ namespace PdfTester
             try
             {
                 double compareDiff= Convert.ToDouble(result);
-                e.Result = name1[name1.Length - 1] + ";" + result;
+                e.Result = name1[name1.Length - 1] + "; Differenz: " + result;
             }
             catch (Exception)
             {
-                e.Result = name1[name1.Length - 1] + ";" + result;
+                e.Result = name1[name1.Length - 1] + "; " + result;
             } 
         }
 
