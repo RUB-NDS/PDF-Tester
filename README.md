@@ -25,15 +25,16 @@ Erst nach dieser Wartezeit wird ein Screenshot angefertigt und das Programm gesc
 Wird keine Wartezeit angegeben, so wird die Wartezeit unter [Einstellungen] verwendet.
 
 PDF Dateien (Pfadangabe):
-An dieser Stelle muss der Ordner zu den PDF Dateien angegeben werden.
+An dieser Stelle muss der Ordner zu den PDF Dateien angegeben werden (Unterordner werden berücksichtigt).
 Die einzelnen Dateien werden als Argument zum Programmstart der Betrachtungsprogramme hinzugefügt.
 
 Ablageort Screenshot (Pfadangabe):
 An dieser Stelle muss der Ordner ausgewählt werden, in dem die erstellten Screenshots abgespeichert werden sollen.
+Für jedes PDF Betrachtungsprogramm wird ein Unterordner erstellt.
 
 PDF Tester starten:
 Dieser Button startet die Abarbeitung.
-Jedes unter der Pfadangabe gefundete PDF Dokument wird mit jedem PDF Betrachtungsprogramm in der Programmliste aufgerufen.
+Jedes unter der Pfadangabe gefundene PDF Dokument, wird mit jedem PDF Betrachtungsprogramm in der Programmliste aufgerufen.
 Anschließend wird ein Screenshot erstellt und dieser unter dem gewählten Ablageort gespeichert.
 Der Dateiname des Screenshot setzt sich wie folgt zusammen "PDF-Dateiname + _ + Name in Programmliste + _ + Datum + .png".
 
@@ -50,11 +51,12 @@ Hier können Screenshots mit einander verglichen werden.
 Da jeweils Pixel mit Pixel verglichen wird, müssen die zu vergleichenden Screenshots die selbe Pixelbreite aufweisen.
 
 Pfadangabe zu Screenshots:
-Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden.
+Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden (Unterordner werden berücksichtigt).
 
 Pfadangabe zu Screenshots (valide):
 Einmalig müssen unter [Start] Screenshots erstellt werden, die eine valide Signaturüberprüfung aufweisen.
 Diese Screenshots dienen als Referenz und sollen mit späteren Screenshots von manipulierten PDF Dokumenten vergleichen werden.
+Bei der Pfadangabe werden Unterordner berücksichtigt.
 
 Screenshot Vergleich starten:
 Dieser Button startet die Abarbeitung.
@@ -71,7 +73,7 @@ Hier können Screenshots durch eine OCR Texterkennung eingelesen werden und der 
 Für die Texterkennung wird Tesseract in der Version 4 verwendet.
 
 Pfadangabe zu Screenshots:
-Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden.
+Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden (Unterordner werden berücksichtigt).
 
 Pfadangabe zum Speichern des erkannten Textes:
 Der über die OCR Texterkennung gescannte Inhalt der Screenshots wird für eine spätere Auswertung in der Textdatei geschrieben.
