@@ -1,6 +1,9 @@
 package org.rub.nds.pdf.pdfsigner;
 
+import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -55,8 +58,20 @@ import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.bc.BcDigestCalculatorProvider;
 import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
 import org.apache.commons.cli.*;
-import org.apache.pdfbox.cos.COSObject;
-import org.apache.pdfbox.cos.COSObjectKey;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.common.PDStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAppearanceDictionary;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAppearanceStream;
+import org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import org.apache.pdfbox.util.Matrix;
 
 /**
  *
@@ -81,6 +96,7 @@ public class PDFSigner {
     private static final String OPTIONS_SIGTYPE = "sigtype";
     private static final String OPTIONS_SIGVIEW = "sigview";
     private static final String OPTIONS_LOCK = "lock";
+    private static final String OPTIONS_SIG_IMG = "sigimg";
 
     public static KeyStore ks = null;
     public static PrivateKey pk = null;
@@ -125,13 +141,17 @@ public class PDFSigner {
         signatureType.setRequired(false);
         options.addOption(signatureType);
 
-        Option sigview = new Option(OPTIONS_SIGVIEW, true, "Signature view: visible (default)/invisible");
+        Option sigview = new Option(OPTIONS_SIGVIEW, true, "Signature view: visible(default)/invisible");
         sigview.setRequired(false);
         options.addOption(sigview);
 
         Option lockPDF = new Option(OPTIONS_LOCK, true, "Lock PDF: true/false (default)");
         lockPDF.setRequired(false);
         options.addOption(lockPDF);
+
+        Option sigimg = new Option(OPTIONS_SIG_IMG, true, "Image path to visible signature");
+        sigimg.setRequired(false);
+        options.addOption(sigimg);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -181,7 +201,7 @@ public class PDFSigner {
         if (cmd.getOptionValue(OPTIONS_SIGTYPE, "certified").equalsIgnoreCase("certified")) {
             signCertify(cmd, pdDocument, result, data -> signWithSeparatedHashing(data));
         } else {
-            signApproval(pdDocument, result, data -> signWithSeparatedHashing(data));
+            signApproval(cmd, pdDocument, result, data -> signWithSeparatedHashing(data));
         }
     }
 
@@ -192,12 +212,15 @@ public class PDFSigner {
             pdDocument.getDocumentCatalog().setAcroForm(acroForm);
         }
         PDSignatureField signatureField = new PDSignatureField(acroForm);
+        signatureField.setAlternateFieldName("Digital Signature");
+        //signatureField.setValue("Digital Signature");
+
         acroForm.getFields().add(signatureField);
         signatureField.getWidgets().get(0).setPage(pdDocument.getPage(0));
         pdDocument.getPage(0).getAnnotations().add(signatureField.getWidgets().get(0));
 
         if (cmd.getOptionValue(OPTIONS_SIGVIEW, "visible").equals("visible")) {
-            signatureField.getWidgets().get(0).setRectangle(new PDRectangle(100, 600, 300, 200));
+            signatureField.getWidgets().get(0).setRectangle(new PDRectangle(150, 400, 300, 80));
         } else {
             signatureField.getWidgets().get(0).setRectangle(new PDRectangle(0, 0, 0, 0));
         }
@@ -210,22 +233,22 @@ public class PDFSigner {
     public static void setLock(PDSignatureField pdSignatureField, PDAcroForm acroForm) {
         COSName COS_NAME_ACTION = COSName.getPDFName("Action");
         COSName COS_NAME_SIG_FIELD_LOCK = COSName.getPDFName("SigFieldLock");
-        
+
         COSDictionary lockDict = new COSDictionary();
         lockDict.setItem(COS_NAME_ACTION, COS_NAME_ALL);
         lockDict.setItem(COSName.TYPE, COS_NAME_SIG_FIELD_LOCK);
         pdSignatureField.getCOSObject().setItem(COS_NAME_LOCK, lockDict);
     }
 
-    private static void signApproval(PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface) throws IOException {
+    private static void signApproval(CommandLine cmd, PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface) throws IOException {
         PDSignatureField signatureField = document.getSignatureFields().get(0);
         PDSignature signature = new PDSignature();
         signatureField.setValue(signature);
-        signApproval(document, outputFile, signatureInterface, signatureField);
+        signApproval(cmd, document, outputFile, signatureInterface, signatureField);
 
     }
 
-    private static void signApproval(PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface, PDSignatureField signatureField) throws IOException {
+    private static void signApproval(CommandLine cmd, PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface, PDSignatureField signatureField) throws IOException {
         PDSignature signature = signatureField.getSignature();
         signature.setFilter(PDSignature.FILTER_ADOBE_PPKLITE);
         signature.setSubFilter(PDSignature.SUBFILTER_ADBE_PKCS7_DETACHED);
@@ -233,7 +256,13 @@ public class PDFSigner {
         signature.setLocation("Bochum");
         signature.setReason("PDF Security Testing");
         signature.setSignDate(Calendar.getInstance());
-        document.addSignature(signature);
+        SignatureOptions sigOptions = new SignatureOptions();
+
+        if (cmd.getOptionValue(OPTIONS_SIGVIEW, "visible").equalsIgnoreCase("visible")) {
+            sigOptions.setVisualSignature(createVisualSignatureTemplate(document, 0, signatureField.getWidgets().get(0).getRectangle(), cmd.getOptionValue(OPTIONS_SIG_IMG, "")));
+        }
+
+        document.addSignature(signature, sigOptions);
         ExternalSigningSupport externalSigning
                 = document.saveIncrementalForExternalSigning(outputFile);
         // invoke external signature service
@@ -281,7 +310,7 @@ public class PDFSigner {
         catalogDict.setNeedToBeUpdated(true);
         permsDict.setNeedToBeUpdated(true);
 
-        signApproval(document, outputFile, signatureInterface, signatureField);
+        signApproval(cmd, document, outputFile, signatureInterface, signatureField);
     }
 
     private static byte[] signWithSeparatedHashing(InputStream content) throws IOException {
@@ -328,4 +357,80 @@ public class PDFSigner {
         }
     }
 
+    // create a template PDF document with empty signature and return it as a stream.
+    private static InputStream createVisualSignatureTemplate(PDDocument srcDoc, int pageNum, PDRectangle rect, String sigImgPath) throws IOException {
+        try (PDDocument doc = new PDDocument()) {
+            PDPage page = new PDPage(srcDoc.getPage(pageNum).getMediaBox());
+            doc.addPage(page);
+            PDAcroForm acroForm = new PDAcroForm(doc);
+            doc.getDocumentCatalog().setAcroForm(acroForm);
+            PDSignatureField signatureField = new PDSignatureField(acroForm);
+            PDAnnotationWidget widget = signatureField.getWidgets().get(0);
+            List<PDField> acroFormFields = acroForm.getFields();
+            acroForm.setSignaturesExist(true);
+            acroForm.setAppendOnly(true);
+            acroForm.getCOSObject().setDirect(true);
+            acroFormFields.add(signatureField);
+
+            widget.setRectangle(rect);
+
+            // from PDVisualSigBuilder.createHolderForm()
+            PDStream stream = new PDStream(doc);
+            PDFormXObject form = new PDFormXObject(stream);
+            PDResources res = new PDResources();
+            form.setResources(res);
+            form.setFormType(1);
+            PDRectangle bbox = new PDRectangle(rect.getWidth(), rect.getHeight());
+            float height = bbox.getHeight();
+            Matrix initialScale = null;
+            form.setBBox(bbox);
+            PDFont font = PDType1Font.HELVETICA_BOLD;
+
+            // from PDVisualSigBuilder.createAppearanceDictionary()
+            PDAppearanceDictionary appearance = new PDAppearanceDictionary();
+            appearance.getCOSObject().setDirect(true);
+            PDAppearanceStream appearanceStream = new PDAppearanceStream(form.getCOSObject());
+            appearance.setNormalAppearance(appearanceStream);
+            widget.setAppearance(appearance);
+
+            try (PDPageContentStream cs = new PDPageContentStream(doc, appearanceStream)) {
+                // for 90Â° and 270Â° scale ratio of width / height
+                // not really sure about this
+                // why does scale have no effect when done in the form matrix???
+                if (initialScale != null) {
+                    cs.transform(initialScale);
+                }
+
+                if (sigImgPath.isEmpty()) {
+//                    cs.addRect(100, 100, 10000, 10000);
+//                    cs.saveGraphicsState();
+//                    // show background (just for debugging, to see the rect size + position)
+                    cs.setNonStrokingColor(Color.lightGray);
+                    cs.fill();
+                    
+                    // show text
+                    float fontSize = 10;
+                    float leading = fontSize * 1.5f;
+                    cs.beginText();
+                    cs.setFont(font, fontSize);
+                    cs.setNonStrokingColor(Color.black);
+                    cs.newLineAtOffset(fontSize, height - leading);
+                    cs.setLeading(leading);
+                    cs.showText("(Digital Signature)");
+                } else {
+                    // show background image
+                    // save and restore graphics if the image is too large and needs to be scaled
+                    cs.transform(Matrix.getScaleInstance(0.25f, 0.25f));
+                    PDImageXObject img = PDImageXObject.createFromFileByExtension(new File(sigImgPath), doc);
+                    cs.drawImage(img, 0, 0);
+                    cs.restoreGraphicsState();
+                }
+            }
+
+            // no need to set annotations and /P entry
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            doc.save(baos);
+            return new ByteArrayInputStream(baos.toByteArray());
+        }
+    }
 }
