@@ -46,4 +46,4 @@ java -jar pdfsigner.jar -i document_fields.pdf -o signed_fieldmdp_excluded.pdf -
 #######################################################
 ############ UR3 SECTION #########################
 #######################################################
--i document_fields.pdf -o signed_ur3.pdf -pkcs demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform ur3 -sigview visible -sigimg PdfInsecurityTeam-Logo.png
+java -jar pdfsigner.jar -i document_fields.pdf -o signed_ur3.pdf -pkcs demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform ur3 -sigview visible -sigimg PdfInsecurityTeam-Logo.png
