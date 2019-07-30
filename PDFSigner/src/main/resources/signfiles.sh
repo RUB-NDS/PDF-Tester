@@ -41,3 +41,9 @@ java -jar pdfsigner.jar -i document_fields.pdf -o signed_fieldmdp_included.pdf -
 
 # FieldMDP Protecting including fields: Action=Exclude, Fields=Text1
 java -jar pdfsigner.jar -i document_fields.pdf -o signed_fieldmdp_excluded.pdf -pkcs demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform fieldmdp -fieldmpd_action include -fieldmpd_fields Text1 -sigview visible -sigimg PdfInsecurityTeam-Logo.png
+
+
+#######################################################
+############ UR3 SECTION #########################
+#######################################################
+-i document_fields.pdf -o signed_ur3.pdf -pkcs demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform ur3 -sigview visible -sigimg PdfInsecurityTeam-Logo.png

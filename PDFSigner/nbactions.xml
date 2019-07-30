@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i ./src/main/resources/document_fields.pdf -o signed_fieldmdp.pdf -pkcs ./src/main/resources/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform fieldmdp -fieldmpd_action exclude -fieldmpd_fields Text1,Text2 -sigview visible -sigimg /media/sf_vladi/Dokumente/git/pdf-certification-attacker/PDFSigner/src/main/resources/PdfInsecurityTeam-Logo.png</exec.args>
+                <exec.args>-classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i ./src/main/resources/document_fields.pdf -o signed_ur3.pdf -pkcs ./src/main/resources/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform ur3 -sigview visible -sigimg /media/sf_vladi/Dokumente/git/pdf-certification-attacker/PDFSigner/src/main/resources/PdfInsecurityTeam-Logo.png</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>

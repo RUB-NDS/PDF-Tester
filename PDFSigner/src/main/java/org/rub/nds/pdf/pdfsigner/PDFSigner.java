@@ -34,7 +34,11 @@ public class PDFSigner {
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_SIGTYPE, "certified").equalsIgnoreCase("certified")) {
             if (cmd.getOptionValue(ConfigurationManager.OPTIONS_TRANSFORM_TYPE, "docmdp").equals("fieldmdp")) {
                 FieldMDPSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
-            } else {
+            }
+            else if (cmd.getOptionValue(ConfigurationManager.OPTIONS_TRANSFORM_TYPE, "docmdp").equals("ur3")){
+                UR3Signer.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
+            }
+            else {
                 DocMDPSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
             }
         } else {
