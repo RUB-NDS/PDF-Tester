@@ -10,7 +10,6 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.commons.cli.*;
-import static org.rub.nds.pdf.pdfsigner.ConfigurationManager.OPTIONS_TRANSFORM_TYPE;
 
 /**
  *

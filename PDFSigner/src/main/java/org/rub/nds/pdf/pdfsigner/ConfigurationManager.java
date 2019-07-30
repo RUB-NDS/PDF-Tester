@@ -16,6 +16,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -26,7 +27,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class ConfigurationManager {
 
-    public static String KEYSTORE = "./keystores/demo-rsa2048.p12";
+    public static String KEYSTORE = "demo-rsa2048.p12";
     public static char[] PASSWORD = "demo-rsa2048".toCharArray();
 
     public static final String OPTIONS_INPUT = "i";
@@ -76,54 +77,11 @@ public class ConfigurationManager {
     
     private static CommandLine commandLineParserInit(String[] args) {
         Options options = new Options();
-
-        Option inputFile = new Option(OPTIONS_INPUT, "input", true, "inputFile file path");
-        inputFile.setRequired(true);
-        options.addOption(inputFile);
-
-        Option outputFile = new Option(OPTIONS_OUTPUT, "output", true, "outputFile file");
-        outputFile.setRequired(true);
-        options.addOption(outputFile);
-
-        Option jksFile = new Option(OPTIONS_JKS, "jksFile", true, "JavaKeyStore file");
-        jksFile.setRequired(false);
-        options.addOption(jksFile);
-
-        Option pkcs12File = new Option(OPTIONS_PKCS, "pkcsFile", true, "PKCS12 file");
-        pkcs12File.setRequired(false);
-        options.addOption(pkcs12File);
-
-        Option password = new Option(OPTIONS_PASSWORD, "password", true, "JKS/PKCS12 password to access the private keys");
-        password.setRequired(false);
-        options.addOption(password);
-
-        Option signatureType = new Option(OPTIONS_SIGTYPE, true, "Signature Type: approval/certified (default)");
-        signatureType.setRequired(false);
-        options.addOption(signatureType);
-        
-        Option transformType = new Option(OPTIONS_TRANSFORM_TYPE, true, "Signature Tranformation: docmdp(default)/fieldmdp/ur3");
-        transformType.setRequired(false);
-        options.addOption(transformType);
-        
-        Option fieldMPDAction = new Option(OPTIONS_FIELDMDP_ACTION, true, "all(default)/include/exclude");
-        fieldMPDAction.setRequired(false);
-        options.addOption(fieldMPDAction);
-        
-        Option fieldMPDfields = new Option(OPTIONS_FIELDMDP_FIELDS, true, "Name of the fields included/excluded into the FielDMP computation; comma separated.");
-        fieldMPDfields.setRequired(false);
-        options.addOption(fieldMPDfields);
-
-        Option sigview = new Option(OPTIONS_SIGVIEW, true, "Signature view: visible(default)/invisible");
-        sigview.setRequired(false);
-        options.addOption(sigview);
-
-        Option lockPDF = new Option(OPTIONS_LOCK, true, "Lock PDF: true/false (default)");
-        lockPDF.setRequired(false);
-        options.addOption(lockPDF);
-
-        Option sigimg = new Option(OPTIONS_SIG_IMG, true, "Image path to visible signature");
-        sigimg.setRequired(false);
-        options.addOption(sigimg);
+        inputFilesOptions(options);
+        keyOtions(options);
+        sigTypeOptions(options);
+        fieldMDPOptions(options);
+        sigViewOptions(options);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -134,9 +92,90 @@ public class ConfigurationManager {
             return cmd;
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            formatter.printHelp("utility-name", options);
+            formatter.printHelp("PDFSigner", options);
             System.exit(1);
             return null;
         }
+    }
+
+    private static void sigViewOptions(Options options) throws IllegalArgumentException {
+        OptionGroup sigView = new OptionGroup();
+        
+        Option sigimg = new Option(OPTIONS_SIG_IMG, true, "Image path to visible signature");
+        sigimg.setArgName("png | jpg");
+        sigimg.setRequired(false);
+        sigView.addOption(sigimg);
+        
+        Option sigview = new Option(OPTIONS_SIGVIEW, true, "Signature view");
+        sigview.setArgName("visible(default) | invisible");
+        sigview.setRequired(false);
+        sigView.addOption(sigview);
+        options.addOptionGroup(sigView);
+    }
+
+    private static void fieldMDPOptions(Options options) throws IllegalArgumentException {
+        OptionGroup fieldMDPOptions = new OptionGroup();
+        Option fieldMPDAction = new Option(OPTIONS_FIELDMDP_ACTION, true, "Specifies which fields are protected by the signature");
+        fieldMPDAction.setArgName("all(default) | include | exclude");
+        fieldMPDAction.setRequired(false);
+        fieldMDPOptions.addOption(fieldMPDAction);
+        
+        Option fieldMPDfields = new Option(OPTIONS_FIELDMDP_FIELDS, true, "Comma separated list of the field names included/excluded into the FielDMP computation");
+        fieldMPDfields.setArgName("fieldname1,fieldname2,...");
+        fieldMPDfields.setRequired(false);
+        fieldMDPOptions.addOption(fieldMPDfields);
+        options.addOptionGroup(fieldMDPOptions);
+    }
+
+    private static void sigTypeOptions(Options options) throws IllegalArgumentException {
+        OptionGroup sigType = new OptionGroup();
+        Option signatureType = new Option(OPTIONS_SIGTYPE, true, "Signature Type");
+        signatureType.setArgName("certified(default) | approval");
+        signatureType.setRequired(false);
+        sigType.addOption(signatureType);
+        
+        Option transformType = new Option(OPTIONS_TRANSFORM_TYPE, true, "Signature Tranformation");
+        transformType.setArgName("docmdp(default) | fieldmdp | ur3");
+        transformType.setRequired(false);
+        sigType.addOption(transformType);
+        
+        Option lockPDF = new Option(OPTIONS_LOCK, true, "Lock PDF: true/false (default)");
+        lockPDF.setArgName("false(default) | true");
+        lockPDF.setRequired(false);
+        sigType.addOption(lockPDF);
+        
+        options.addOptionGroup(sigType);
+    }
+
+    private static void inputFilesOptions(Options options) throws IllegalArgumentException {
+        OptionGroup input_output = new OptionGroup();
+        Option inputFile = new Option(OPTIONS_INPUT, "input", true, "Path and Name of the PDF which will be signed");
+        inputFile.setArgName("PDF filepath+filename");
+        inputFile.setRequired(true);
+        input_output.addOption(inputFile);
+        
+        Option outputFile = new Option(OPTIONS_OUTPUT, "output", true, "Path and Name of the signed PDF");
+        outputFile.setArgName("PDF filepath+filename");
+        outputFile.setRequired(true);
+        input_output.addOption(outputFile);
+               
+        options.addOptionGroup(input_output);
+    }
+
+    private static void keyOtions(Options options) throws IllegalArgumentException {
+        OptionGroup keys = new OptionGroup();
+        Option jksFile = new Option(OPTIONS_JKS, "jksFile", true, "JavaKeyStore file");
+        jksFile.setArgName("JKS filepath+filename");
+        jksFile.setRequired(false);
+        keys.addOption(jksFile);
+        Option pkcs12File = new Option(OPTIONS_PKCS, "pkcsFile", true, "PKCS12 file");
+        pkcs12File.setRequired(false);
+        pkcs12File.setArgName("PKCS12 filepath+filename");
+        keys.addOption(pkcs12File);
+        Option password = new Option(OPTIONS_PASSWORD, "password", true, "JKS/PKCS12 password to access the private keys");
+        password.setArgName("password");
+        password.setRequired(false);
+        keys.addOption(password);
+        options.addOptionGroup(keys);
     }
 }
