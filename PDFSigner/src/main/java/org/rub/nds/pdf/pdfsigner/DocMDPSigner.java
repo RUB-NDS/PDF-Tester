@@ -16,7 +16,7 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
  * @author vladi
  */
 public class DocMDPSigner implements Signer{
-
+    
     public static void sign(CommandLine cmd, PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface) throws IOException{
         PDSignatureField signatureField = document.getSignatureFields().get(0);
         PDSignature signature = new PDSignature();
@@ -33,7 +33,25 @@ public class DocMDPSigner implements Signer{
 //        }
         transformParams.setItem(COSName.TYPE, COSName.getPDFName("TransformParams"));
         transformParams.setItem(COSName.V, COSName.getPDFName("1.2"));
-        transformParams.setInt(COSName.P, 2);  // SEHR WICHTIG: ADOBE erkennt keinen Certificate ansonst
+        
+        if (cmd.getOptionValue(ConfigurationManager.OPTIONS_PERMISSION, "2").equalsIgnoreCase("2"))
+            transformParams.setInt(COSName.P, 2);
+        else 
+        {
+            if (cmd.getOptionValue(ConfigurationManager.OPTIONS_PERMISSION).equalsIgnoreCase("1"))
+            {
+                transformParams.setInt(COSName.P, 1);
+            }
+            else if (cmd.getOptionValue(ConfigurationManager.OPTIONS_PERMISSION).equalsIgnoreCase("3"))
+            {
+                transformParams.setInt(COSName.P, 3);
+            }
+            else{
+                transformParams.setInt(COSName.P, 2);
+            }
+        }
+        
+        //transformParams.setInt(COSName.P, 2);  // SEHR WICHTIG: ADOBE erkennt keinen Certificate ansonst
         transformParams.setDirect(false);
         COSDictionary sigRef = new COSDictionary();
         sigRef.setItem(COSName.TYPE, COSName.getPDFName("SigRef"));
