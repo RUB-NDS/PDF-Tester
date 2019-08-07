@@ -140,8 +140,8 @@ public class ConfigurationManager {
         options.addOption(lockPDF);
         
         Option transformParam = new Option(OPTIONS_PERMISSION, true, "Transformation Parameter");
-        lockPDF.setArgName("2(default) | 1 | 3");
-        lockPDF.setRequired(false);
+        transformParam.setArgName("2(default) | 1 | 3");
+        transformParam.setRequired(false);
         options.addOption(transformParam);
         
     }
