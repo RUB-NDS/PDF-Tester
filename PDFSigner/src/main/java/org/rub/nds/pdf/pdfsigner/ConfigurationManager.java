@@ -37,6 +37,7 @@ public class ConfigurationManager {
     public static final String OPTIONS_SIGTYPE = "sigtype";
     public static final String OPTIONS_SIGVIEW = "sigview";
     public static final String OPTIONS_LOCK = "lock";
+    public static final String OPTIONS_LOCK_FIELDS = "lockfields";
     public static final String OPTIONS_SIG_IMG = "sigimg";
     public static final String OPTIONS_TRANSFORM_TYPE = "transform";
     public static final String OPTIONS_FIELDMDP_ACTION = "fieldmpd_action";
@@ -137,6 +138,11 @@ public class ConfigurationManager {
         lockPDF.setArgName("false(default) | true");
         lockPDF.setRequired(false);
         options.addOption(lockPDF);
+
+        Option lockFieldsPDF = new Option(OPTIONS_LOCK_FIELDS, true, "Comma separated list of the field names included/excluded into the SigFieldLock Dictionary. If empty and the lock is set /ALL fileds are locked");
+        lockFieldsPDF.setArgName("fieldname1,fieldname2,...");
+        lockFieldsPDF.setRequired(false);
+        options.addOption(lockFieldsPDF);
         
     }
 

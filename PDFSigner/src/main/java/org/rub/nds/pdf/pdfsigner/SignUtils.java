@@ -11,8 +11,10 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.cli.CommandLine;
+import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.cos.COSString;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -47,7 +49,7 @@ public class SignUtils {
     public static final COSName COS_NAME_ACTION = COSName.getPDFName("Action");
     public static final COSName COS_NAME_ALL = COSName.getPDFName("All");
     public static final COSName COS_NAME_SIG_FIELD_LOCK = COSName.getPDFName("SigFieldLock");
-    
+
     public static byte[] signWithSeparatedHashing(InputStream content) throws IOException {
         try {
             // Digest generation step
@@ -60,8 +62,7 @@ public class SignUtils {
 
             CMSSignedDataGenerator gen = new CMSSignedDataGenerator();
 
-            Attribute attr = new Attribute(CMSAttributes.messageDigest,
-                    new DERSet(new DEROctetString(digest)));
+            Attribute attr = new Attribute(CMSAttributes.messageDigest, new DERSet(new DEROctetString(digest)));
 
             ASN1EncodableVector v = new ASN1EncodableVector();
 
@@ -79,7 +80,7 @@ public class SignUtils {
             gen.addSignerInfoGenerator(builder.build(
                     new BcRSAContentSignerBuilder(sha256withRSA,
                             new DefaultDigestAlgorithmIdentifierFinder().find(sha256withRSA))
-                            .build(PrivateKeyFactory.createKey(ConfigurationManager.pk.getEncoded())),
+                                    .build(PrivateKeyFactory.createKey(ConfigurationManager.pk.getEncoded())),
                     new JcaX509CertificateHolder(cert)));
 
             gen.addCertificates(certs);
@@ -91,9 +92,9 @@ public class SignUtils {
             throw new IOException(e);
         }
     }
-    
-    
-    public static void insertEmptySignature(CommandLine cmd, OutputStream result, PDDocument pdDocument) throws IOException {
+
+    public static void insertEmptySignature(CommandLine cmd, OutputStream result, PDDocument pdDocument)
+            throws IOException {
         PDAcroForm acroForm = pdDocument.getDocumentCatalog().getAcroForm();
         if (acroForm == null) {
             acroForm = new PDAcroForm(pdDocument);
@@ -101,7 +102,7 @@ public class SignUtils {
         }
         PDSignatureField signatureField = new PDSignatureField(acroForm);
         signatureField.setAlternateFieldName("Digital Signature");
-        //signatureField.setValue("Digital Signature");
+        // signatureField.setValue("Digital Signature");
 
         acroForm.getFields().add(signatureField);
         signatureField.getWidgets().get(0).setPage(pdDocument.getPage(0));
@@ -114,14 +115,39 @@ public class SignUtils {
         }
 
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_LOCK, "false").equalsIgnoreCase(Boolean.TRUE.toString())) {
-            setLock(signatureField, acroForm);
+            setLock(signatureField, acroForm, cmd);
         }
     }
-    
-    public static void setLock(PDSignatureField pdSignatureField, PDAcroForm acroForm) {
+
+    public static void setLock(PDSignatureField pdSignatureField, PDAcroForm acroForm, CommandLine cmd) {
         COSDictionary lockDict = new COSDictionary();
-        lockDict.setItem(COS_NAME_ACTION, COS_NAME_ALL);
+        if (cmd.getOptionValue(ConfigurationManager.OPTIONS_LOCK_FIELDS) == null
+                || cmd.getOptionValue(ConfigurationManager.OPTIONS_LOCK_FIELDS).isEmpty()) {
+            lockDict.setItem(COS_NAME_ACTION, COS_NAME_ALL);
+        }
+        else{
+            lockDict.setItem(COS_NAME_ACTION, COSName.getPDFName("Include"));
+            extractLockFields(cmd, lockDict);
+        }
         lockDict.setItem(COSName.TYPE, COS_NAME_SIG_FIELD_LOCK);
         pdSignatureField.getCOSObject().setItem(COS_NAME_LOCK, lockDict);
+    }
+
+    public static void extractFieldMDPFields(CommandLine cmd, COSDictionary lockDict) {
+        String[] fields = cmd.getOptionValue(ConfigurationManager.OPTIONS_FIELDMDP_FIELDS, "").split(",");
+        COSArray signedFields = new COSArray();
+        for (String s : fields) {
+            signedFields.add(new COSString(s));
+        }
+        lockDict.setItem(COSName.FIELDS, signedFields);
+    }
+
+    public static void extractLockFields(CommandLine cmd, COSDictionary lockDict) {
+        String[] fields = cmd.getOptionValue(ConfigurationManager.OPTIONS_LOCK_FIELDS, "").split(",");
+        COSArray signedFields = new COSArray();
+        for (String s : fields) {
+            signedFields.add(new COSString(s));
+        }
+        lockDict.setItem(COSName.FIELDS, signedFields);
     }
 }

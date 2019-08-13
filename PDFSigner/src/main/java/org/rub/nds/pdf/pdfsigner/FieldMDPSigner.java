@@ -7,13 +7,10 @@ import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSBase;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
-import org.apache.pdfbox.cos.COSString;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
 import org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
-import org.apache.xmpbox.schema.PDFAExtensionSchema;
 
 /**
  *
@@ -33,7 +30,7 @@ public class FieldMDPSigner {
         signatureField.setValue(signature);
 
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_LOCK, "false").equalsIgnoreCase("true")) {
-            SignUtils.setLock(signatureField, document.getDocumentCatalog().getAcroForm());
+            SignUtils.setLock(signatureField, document.getDocumentCatalog().getAcroForm(), cmd);
         }
 
         COSBase lock = signatureField.getCOSObject().getDictionaryObject(COS_NAME_LOCK);
@@ -48,12 +45,12 @@ public class FieldMDPSigner {
             if (cmd.getOptionValue(ConfigurationManager.OPTIONS_FIELDMDP_ACTION).equalsIgnoreCase("include"))
             {
                 lockDict.setItem(SignUtils.COS_NAME_ACTION, COS_NAME_INCLUDE);
-                extractFieldMDPFields(cmd, lockDict);
+                SignUtils.extractFieldMDPFields(cmd, lockDict);
             }
             else if (cmd.getOptionValue(ConfigurationManager.OPTIONS_FIELDMDP_ACTION).equalsIgnoreCase("exclude"))
             {
                 lockDict.setItem(SignUtils.COS_NAME_ACTION, COS_NAME_EXCLUDE);
-                extractFieldMDPFields(cmd, lockDict);
+                SignUtils.extractFieldMDPFields(cmd, lockDict);
             }
             else{
                 lockDict.setItem(SignUtils.COS_NAME_ACTION, COS_NAME_ALL);
@@ -68,7 +65,6 @@ public class FieldMDPSigner {
 
         transformParams.setItem(COSName.TYPE, COSName.getPDFName("TransformParams"));
         transformParams.setItem(COSName.V, COSName.getPDFName("1.2"));
-        transformParams.setInt(COSName.P, 2);  // SEHR WICHTIG: ADOBE erkennt keinen Certificate ansonst
         transformParams.setDirect(false);
         COSDictionary sigRef = new COSDictionary();
         sigRef.setItem(COSName.TYPE, COSName.getPDFName("SigRef"));
@@ -84,14 +80,4 @@ public class FieldMDPSigner {
 
         ApprovalSigner.sign(cmd, document, outputFile, signatureInterface, signatureField);
     }
-
-    private static void extractFieldMDPFields(CommandLine cmd, COSDictionary lockDict) {
-        String[] fields = cmd.getOptionValue(ConfigurationManager.OPTIONS_FIELDMDP_FIELDS,"").split(",");
-        COSArray signedFields = new COSArray();
-        for (String s : fields){
-            signedFields.add(new COSString(s));
-        }
-        lockDict.setItem(COSName.FIELDS, signedFields);
-    }
-
 }
