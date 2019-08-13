@@ -36,6 +36,7 @@ public class ConfigurationManager {
     public static final String OPTIONS_PASSWORD = "p";
     public static final String OPTIONS_SIGTYPE = "sigtype";
     public static final String OPTIONS_SIGVIEW = "sigview";
+    public static final String OPTIONS_PERMISSION = "perm";
     public static final String OPTIONS_LOCK = "lock";
     public static final String OPTIONS_LOCK_FIELDS = "lockfields";
     public static final String OPTIONS_SIG_IMG = "sigimg";
@@ -143,6 +144,11 @@ public class ConfigurationManager {
         lockFieldsPDF.setArgName("fieldname1,fieldname2,...");
         lockFieldsPDF.setRequired(false);
         options.addOption(lockFieldsPDF);
+        
+        Option transformParam = new Option(OPTIONS_PERMISSION, true, "Transformation Parameter");
+        transformParam.setArgName("2(default) | 1 | 3");
+        transformParam.setRequired(false);
+        options.addOption(transformParam);
         
     }
 

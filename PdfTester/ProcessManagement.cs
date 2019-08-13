@@ -52,6 +52,11 @@ namespace PdfTester
                 if (newProc.Length > 0)
                     newProc[0].Kill();
 
+                //Kill expert.exe from Expert PDF
+                newProc = Process.GetProcessesByName("expert.exe");
+                if (newProc.Length > 0)
+                    newProc[0].Kill();
+
                 return "ok";
             }
             catch (Exception e)
