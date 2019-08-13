@@ -32,17 +32,17 @@ public class PDFSigner {
         SignUtils.insertEmptySignature(cmd, result, pdDocument);
 
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_SIGTYPE, "certified").equalsIgnoreCase("certified")) {
-            if (cmd.getOptionValue(ConfigurationManager.OPTIONS_TRANSFORM_TYPE, "docmdp").equals("fieldmdp")) {
+            DocMDPSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
+        } else {
+            if (cmd.getOptionValue(ConfigurationManager.OPTIONS_TRANSFORM_TYPE, "").equals("fieldmdp")) {
                 FieldMDPSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
             }
-            else if (cmd.getOptionValue(ConfigurationManager.OPTIONS_TRANSFORM_TYPE, "docmdp").equals("ur3")){
+            else if (cmd.getOptionValue(ConfigurationManager.OPTIONS_TRANSFORM_TYPE, "").equals("ur3")){
                 UR3Signer.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
             }
             else {
-                DocMDPSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
+                ApprovalSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
             }
-        } else {
-            ApprovalSigner.sign(cmd, pdDocument, result, data -> SignUtils.signWithSeparatedHashing(data));
         }
     }
 }
