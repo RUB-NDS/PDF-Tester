@@ -130,6 +130,7 @@ public class ApprovalSigner implements Signer{
                     cs.newLineAtOffset(fontSize, height - leading);
                     cs.setLeading(leading);
                     cs.showText("(Digital Signature)");
+                    cs.endText();
                 } else {
                     // show background image
                     // save and restore graphics if the image is too large and needs to be scaled
@@ -137,6 +138,18 @@ public class ApprovalSigner implements Signer{
                     PDImageXObject img = PDImageXObject.createFromFileByExtension(new File(sigImgPath), doc);
                     cs.drawImage(img, 0, 0);
                     cs.restoreGraphicsState();
+                    
+                    // show text eingefuegt
+                    float fontSize = 10;
+                    float leading = fontSize * 1.5f;
+                    cs.beginText();
+                    cs.setFont(font, fontSize);
+                    cs.setNonStrokingColor(Color.black);
+                    cs.newLineAtOffset(fontSize, height - leading);
+                    cs.setLeading(leading);
+                    cs.showText("(Digital Signature)");
+                    cs.endText();
+                    // bis hier hin
                 }
             }
 
