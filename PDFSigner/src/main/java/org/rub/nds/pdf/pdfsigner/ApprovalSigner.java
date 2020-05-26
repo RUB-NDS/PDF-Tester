@@ -36,7 +36,7 @@ import org.apache.pdfbox.util.Matrix;
  *
  * @author vladi
  */
-public class ApprovalSigner implements Signer{
+public class ApprovalSigner implements Signer {
 
     public static void sign(CommandLine cmd, PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface) throws IOException {
         PDSignatureField signatureField = document.getSignatureFields().get(0);
@@ -56,7 +56,7 @@ public class ApprovalSigner implements Signer{
         SignatureOptions sigOptions = new SignatureOptions();
 
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_SIGVIEW, "visible").equalsIgnoreCase("visible")) {
-            sigOptions.setVisualSignature(createVisualSignatureTemplate(document, 0, signatureField.getWidgets().get(0).getRectangle(), cmd.getOptionValue(ConfigurationManager.OPTIONS_SIG_IMG, "")));
+            sigOptions.setVisualSignature(createVisualSignatureTemplate2(document, 0, signatureField.getWidgets().get(0).getRectangle(), cmd.getOptionValue(ConfigurationManager.OPTIONS_SIG_IMG, "")));
         }
 
         document.addSignature(signature, sigOptions);
@@ -68,14 +68,14 @@ public class ApprovalSigner implements Signer{
         externalSigning.setSignature(cmsSignature);
 
     }
-    
-    
+
     // create a template PDF document with empty signature and return it as a stream.
     private static InputStream createVisualSignatureTemplate(PDDocument srcDoc, int pageNum, PDRectangle rect, String sigImgPath) throws IOException {
-        try (PDDocument doc = new PDDocument()) {
+        try ( PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage(srcDoc.getPage(pageNum).getMediaBox());
             doc.addPage(page);
             PDAcroForm acroForm = new PDAcroForm(doc);
+//            PDAcroForm acroForm = doc.getDocumentCatalog().getAcroForm();
             doc.getDocumentCatalog().setAcroForm(acroForm);
             PDSignatureField signatureField = new PDSignatureField(acroForm);
             PDAnnotationWidget widget = signatureField.getWidgets().get(0);
@@ -106,7 +106,7 @@ public class ApprovalSigner implements Signer{
             appearance.setNormalAppearance(appearanceStream);
             widget.setAppearance(appearance);
 
-            try (PDPageContentStream cs = new PDPageContentStream(doc, appearanceStream)) {
+            try ( PDPageContentStream cs = new PDPageContentStream(doc, appearanceStream)) {
                 // for 90Â° and 270Â° scale ratio of width / height
                 // not really sure about this
                 // why does scale have no effect when done in the form matrix???
@@ -120,13 +120,13 @@ public class ApprovalSigner implements Signer{
 //                    // show background (just for debugging, to see the rect size + position)
                     cs.setNonStrokingColor(Color.lightGray);
                     cs.fill();
-                    
+
                     // show text
                     float fontSize = 10;
                     float leading = fontSize * 1.5f;
                     cs.beginText();
                     cs.setFont(font, fontSize);
-                    cs.setNonStrokingColor(Color.black);
+                    cs.setNonStrokingColor(Color.white);
                     cs.newLineAtOffset(fontSize, height - leading);
                     cs.setLeading(leading);
                     cs.showText("(Digital Signature)");
@@ -134,17 +134,19 @@ public class ApprovalSigner implements Signer{
                 } else {
                     // show background image
                     // save and restore graphics if the image is too large and needs to be scaled
-                    cs.transform(Matrix.getScaleInstance(0.25f, 0.25f));
+                    //cs.transform(Matrix.getScaleInstance(0.25f, 0.25f));
                     PDImageXObject img = PDImageXObject.createFromFileByExtension(new File(sigImgPath), doc);
                     cs.drawImage(img, 0, 0);
-                    cs.restoreGraphicsState();
-                    
+                    //cs.restoreGraphicsState();
+                    cs.setNonStrokingColor(Color.WHITE);
+                    cs.fill();
+
                     // show text eingefuegt
                     float fontSize = 10;
                     float leading = fontSize * 1.5f;
                     cs.beginText();
                     cs.setFont(font, fontSize);
-                    cs.setNonStrokingColor(Color.black);
+                    cs.setNonStrokingColor(Color.white);
                     cs.newLineAtOffset(fontSize, height - leading);
                     cs.setLeading(leading);
                     cs.showText("(Digital Signature)");
@@ -158,5 +160,95 @@ public class ApprovalSigner implements Signer{
             doc.save(baos);
             return new ByteArrayInputStream(baos.toByteArray());
         }
+    }
+
+    // create a template PDF document with empty signature and return it as a stream.
+    private static InputStream createVisualSignatureTemplate2(PDDocument srcDoc, int pageNum, PDRectangle rect, String sigImgPath) throws IOException {
+        PDAcroForm acroForm = new PDAcroForm(srcDoc);
+//            PDAcroForm acroForm = srcDoc.getDocumentCatalog().getAcroForm();
+        srcDoc.getDocumentCatalog().setAcroForm(acroForm);
+        PDSignatureField signatureField = new PDSignatureField(acroForm);
+        PDAnnotationWidget widget = signatureField.getWidgets().get(0);
+        List<PDField> acroFormFields = acroForm.getFields();
+        acroForm.setSignaturesExist(true);
+        acroForm.setAppendOnly(true);
+        acroForm.getCOSObject().setDirect(true);
+        acroFormFields.add(signatureField);
+
+        //Simon: You can adapt the position here 
+        widget.setRectangle(new PDRectangle(new Float(51.8),new Float(758.0),new Float(107.0),new Float(12.0)));
+
+        // from PDVisualSigBuilder.createHolderForm()
+        PDStream stream = new PDStream(srcDoc);
+        PDFormXObject form = new PDFormXObject(stream);
+        PDResources res = new PDResources();
+        form.setResources(res);
+        form.setFormType(1);
+        PDRectangle bbox = new PDRectangle(rect.getWidth(),rect.getHeight());
+        float height = bbox.getHeight();
+        Matrix initialScale = null;
+        form.setBBox(bbox);
+        PDFont font = PDType1Font.HELVETICA_BOLD;
+
+        // from PDVisualSigBuilder.createAppearanceDictionary()
+        PDAppearanceDictionary appearance = new PDAppearanceDictionary();
+        appearance.getCOSObject().setDirect(true);
+        PDAppearanceStream appearanceStream = new PDAppearanceStream(form.getCOSObject());
+        appearance.setNormalAppearance(appearanceStream);
+        widget.setAppearance(appearance);
+
+        try ( PDPageContentStream cs = new PDPageContentStream(srcDoc, appearanceStream)) {
+            // for 90Â° and 270Â° scale ratio of width / height
+            // not really sure about this
+            // why does scale have no effect when done in the form matrix???
+            if (initialScale != null) {
+                cs.transform(initialScale);
+            }
+
+            if (sigImgPath.isEmpty()) {
+//                    cs.addRect(100, 100, 10000, 10000);
+//                    cs.saveGraphicsState();
+//                    // show background (just for debugging, to see the rect size + position)
+                cs.setNonStrokingColor(Color.lightGray);
+                cs.fill();
+
+                // show text
+                float fontSize = 10;
+                float leading = fontSize * 1.5f;
+                cs.beginText();
+                cs.setFont(font, fontSize);
+                cs.setNonStrokingColor(Color.black);
+                cs.newLineAtOffset(fontSize, height - leading);
+                cs.setLeading(leading);
+                cs.showText("(Digital Signature)");
+                cs.endText();
+            } else {
+                // show background image
+                // save and restore graphics if the image is too large and needs to be scaled
+                //cs.transform(Matrix.getScaleInstance(0.25f, 0.25f));
+                PDImageXObject img = PDImageXObject.createFromFileByExtension(new File(sigImgPath), srcDoc);
+                cs.drawImage(img, 0, 0);
+                //cs.restoreGraphicsState();
+                cs.setNonStrokingColor(Color.WHITE);
+                cs.fill();
+
+                // show text eingefuegt
+                float fontSize = 10;
+                float leading = fontSize * 1.5f;
+                cs.beginText();
+                cs.setFont(font, fontSize);
+                cs.setNonStrokingColor(Color.black);
+                cs.newLineAtOffset(fontSize, height - leading);
+                cs.setLeading(leading);
+                cs.showText("Wir sind so was von cool!");
+                cs.endText();
+                // bis hier hin
+            }
+        }
+
+        // no need to set annotations and /P entry
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        srcDoc.save(baos);
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 }

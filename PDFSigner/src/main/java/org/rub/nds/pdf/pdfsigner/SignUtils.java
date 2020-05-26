@@ -100,7 +100,13 @@ public class SignUtils {
             acroForm = new PDAcroForm(pdDocument);
             pdDocument.getDocumentCatalog().setAcroForm(acroForm);
         }
-        PDSignatureField signatureField = new PDSignatureField(acroForm);
+        
+        PDSignatureField signatureField;
+//        if (pdDocument.getSignatureFields().size()==0)
+            signatureField = new PDSignatureField(acroForm);
+//        else
+//            signatureField = pdDocument.getSignatureFields().get(0);
+        
         signatureField.setAlternateFieldName("Digital Signature");
         // signatureField.setValue("Digital Signature");
 

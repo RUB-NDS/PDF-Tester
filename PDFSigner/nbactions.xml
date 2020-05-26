@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i ./src/main/resources/document_fields.pdf -o signed_ur3.pdf -pkcs ./src/main/resources/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform ur3 -sigview visible -sigimg /media/sf_vladi/Dokumente/git/pdf-certification-attacker/PDFSigner/src/main/resources/PdfInsecurityTeam-Logo.png</exec.args>
+                <exec.args>-classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i /home/vladi/Schreibtisch/examples_cert_p2/1/01_Test_cert_p2_original.pdf -o /media/sf_vladi/signed_doc.pdf -pkcs /home/vladi/Schreibtisch/examples_cert_p2/1/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype approval -sigview visible -sigimg /home/vladi/Schreibtisch/examples_cert_p2/1/blank_site_white.png</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i ./src/main/resources/document_fields.pdf -o signed_fieldmdp.pdf -pkcs ./src/main/resources/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform fieldmdp -fieldmpd_action inclusive -sigview visible -sigimg /media/sf_vladi/Dokumente/git/pdf-certification-attacker/PDFSigner/src/main/resources/PdfInsecurityTeam-Logo.png</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i /home/vladi/Schreibtisch/examples_cert_p2/1/01_Test_cert_p2_original.pdf -o /media/sf_vladi/signed_doc.pdf -pkcs /home/vladi/Schreibtisch/examples_cert_p2/1/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype approval -sigview visible -sigimg /home/vladi/Schreibtisch/examples_cert_p2/1/blank_site_white.png</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,7 +39,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i ./src/main/resources/document_fields.pdf -o signed_fieldmdp.pdf -pkcs ./src/main/resources/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype certified -transform fieldmdp -fieldmpd_action inclusive -sigview visible -sigimg /media/sf_vladi/Dokumente/git/pdf-certification-attacker/PDFSigner/src/main/resources/PdfInsecurityTeam-Logo.png</exec.args>
+                <exec.args>-classpath %classpath org.rub.nds.pdf.pdfsigner.PDFSigner -i /home/vladi/Schreibtisch/examples_cert_p2/1/01_Test_cert_p2_original.pdf -o /media/sf_vladi/signed_doc.pdf -pkcs /home/vladi/Schreibtisch/examples_cert_p2/1/keystores/demo-rsa2048.p12 -password demo-rsa2048 -sigtype approval -sigview visible -sigimg /home/vladi/Schreibtisch/examples_cert_p2/1/blank_site_white.png</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
