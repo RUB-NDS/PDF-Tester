@@ -14,6 +14,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.common.PDObjectStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -39,7 +40,7 @@ import org.apache.pdfbox.util.Matrix;
 public class ApprovalSigner implements Signer {
 
     public static void sign(CommandLine cmd, PDDocument document, OutputStream outputFile, SignatureInterface signatureInterface) throws IOException {
-        PDSignatureField signatureField = document.getSignatureFields().get(0);
+        PDSignatureField signatureField = document.getSignatureFields().get(2);
         PDSignature signature = new PDSignature();
         signatureField.setValue(signature);
         sign(cmd, document, outputFile, signatureInterface, signatureField);
@@ -56,7 +57,7 @@ public class ApprovalSigner implements Signer {
         SignatureOptions sigOptions = new SignatureOptions();
 
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_SIGVIEW, "visible").equalsIgnoreCase("visible")) {
-            sigOptions.setVisualSignature(createVisualSignatureTemplate2(document, 0, signatureField.getWidgets().get(0).getRectangle(), cmd.getOptionValue(ConfigurationManager.OPTIONS_SIG_IMG, "")));
+            sigOptions.setVisualSignature(createVisualSignatureTemplate(document, 0, signatureField.getWidgets().get(0).getRectangle(), cmd.getOptionValue(ConfigurationManager.OPTIONS_SIG_IMG, "")));
         }
 
         document.addSignature(signature, sigOptions);
@@ -85,7 +86,7 @@ public class ApprovalSigner implements Signer {
             acroForm.getCOSObject().setDirect(true);
             acroFormFields.add(signatureField);
 
-            widget.setRectangle(rect);
+            widget.setRectangle(new PDRectangle(rect.getWidth(), rect.getHeight()));
 
             // from PDVisualSigBuilder.createHolderForm()
             PDStream stream = new PDStream(doc);
@@ -134,22 +135,22 @@ public class ApprovalSigner implements Signer {
                 } else {
                     // show background image
                     // save and restore graphics if the image is too large and needs to be scaled
-                    //cs.transform(Matrix.getScaleInstance(0.25f, 0.25f));
+//                    cs.transform(Matrix.getScaleInstance(.0f, 0.25f));
                     PDImageXObject img = PDImageXObject.createFromFileByExtension(new File(sigImgPath), doc);
                     cs.drawImage(img, 0, 0);
                     //cs.restoreGraphicsState();
-                    cs.setNonStrokingColor(Color.WHITE);
+                    cs.setNonStrokingColor(Color.BLACK);
                     cs.fill();
 
                     // show text eingefuegt
-                    float fontSize = 10;
+                    float fontSize = 8;
                     float leading = fontSize * 1.5f;
                     cs.beginText();
                     cs.setFont(font, fontSize);
-                    cs.setNonStrokingColor(Color.white);
+                    cs.setNonStrokingColor(Color.black);
                     cs.newLineAtOffset(fontSize, height - leading);
                     cs.setLeading(leading);
-                    cs.showText("(Digital Signature)");
+                    cs.showText("Wir sind wie Socken: cool aber stinkend!");
                     cs.endText();
                     // bis hier hin
                 }
@@ -164,16 +165,17 @@ public class ApprovalSigner implements Signer {
 
     // create a template PDF document with empty signature and return it as a stream.
     private static InputStream createVisualSignatureTemplate2(PDDocument srcDoc, int pageNum, PDRectangle rect, String sigImgPath) throws IOException {
-        PDAcroForm acroForm = new PDAcroForm(srcDoc);
-//            PDAcroForm acroForm = srcDoc.getDocumentCatalog().getAcroForm();
-        srcDoc.getDocumentCatalog().setAcroForm(acroForm);
-        PDSignatureField signatureField = new PDSignatureField(acroForm);
-        PDAnnotationWidget widget = signatureField.getWidgets().get(0);
-        List<PDField> acroFormFields = acroForm.getFields();
-        acroForm.setSignaturesExist(true);
-        acroForm.setAppendOnly(true);
-        acroForm.getCOSObject().setDirect(true);
-        acroFormFields.add(signatureField);
+//        PDAcroForm acroForm = new PDAcroForm(srcDoc);
+            PDAcroForm acroForm = srcDoc.getDocumentCatalog().getAcroForm();
+//        srcDoc.getDocumentCatalog().setAcroForm(acroForm);
+        PDSignatureField signatureField = srcDoc.getSignatureFields().get(2);
+        PDAnnotationWidget widget =  signatureField.getWidgets().get(0);
+//        List<PDField> acroFormFields = acroForm.getFields();
+//        acroForm.setSignaturesExist(true);
+//        acroForm.setAppendOnly(true);
+//        acroForm.getCOSObject().setDirect(true);
+//        acroFormFields.add(srcDoc.getSignatureFields().get(0));
+//        acroFormFields.add(signatureField);
 
         //Simon: You can adapt the position here 
         widget.setRectangle(new PDRectangle(new Float(51.8),new Float(758.0),new Float(107.0),new Float(12.0)));
@@ -184,7 +186,7 @@ public class ApprovalSigner implements Signer {
         PDResources res = new PDResources();
         form.setResources(res);
         form.setFormType(1);
-        PDRectangle bbox = new PDRectangle(rect.getWidth(),rect.getHeight());
+        PDRectangle bbox = new PDRectangle(new Float(51.8),new Float(758.0),new Float(107.0),new Float(12.0));
         float height = bbox.getHeight();
         Matrix initialScale = null;
         form.setBBox(bbox);
@@ -229,7 +231,7 @@ public class ApprovalSigner implements Signer {
                 PDImageXObject img = PDImageXObject.createFromFileByExtension(new File(sigImgPath), srcDoc);
                 cs.drawImage(img, 0, 0);
                 //cs.restoreGraphicsState();
-                cs.setNonStrokingColor(Color.WHITE);
+                cs.setNonStrokingColor(Color.BLACK);
                 cs.fill();
 
                 // show text eingefuegt
@@ -240,7 +242,7 @@ public class ApprovalSigner implements Signer {
                 cs.setNonStrokingColor(Color.black);
                 cs.newLineAtOffset(fontSize, height - leading);
                 cs.setLeading(leading);
-                cs.showText("Wir sind so was von cool!");
+                cs.showText("AAAAAAAAAAAAAAAAAAAAAAAA");
                 cs.endText();
                 // bis hier hin
             }

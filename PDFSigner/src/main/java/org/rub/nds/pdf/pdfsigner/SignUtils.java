@@ -115,7 +115,7 @@ public class SignUtils {
         pdDocument.getPage(0).getAnnotations().add(signatureField.getWidgets().get(0));
 
         if (cmd.getOptionValue(ConfigurationManager.OPTIONS_SIGVIEW, "visible").equals("visible")) {
-            signatureField.getWidgets().get(0).setRectangle(new PDRectangle(0, 0, 612, 792));
+            signatureField.getWidgets().get(0).setRectangle(new PDRectangle(new Float(51.8),new Float(758.0),new Float(210.0),new Float(20.0)));
         } else {
             signatureField.getWidgets().get(0).setRectangle(new PDRectangle(0, 0, 0, 0));
         }
