@@ -118,7 +118,7 @@ Default value: 500 pixels
 <br/><br/>
 Language selection OCR text recognition:<br/>
 A language pack can be selected for the text recognition.
-It is recommended to create the screenshots in English and to select the English language package "eng", because the best results could be achieved with it. The dropdown list is filled with the files in the "tessdata" subfolder of the Tesseract folder. The language files must have the extension ".traineddata".
+It is recommended to create the screenshots in english and to select the english language package "eng", because the best results could be achieved with it. The dropdown list is filled with the files in the "tessdata" subfolder of the Tesseract folder. The language files must have the extension ".traineddata".
 <br/><br/>
 Path to the Tesseract folder:<br/>
 At this point, the Tesseract program folder must be selected.
