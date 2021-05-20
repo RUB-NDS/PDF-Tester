@@ -4,11 +4,11 @@
 PdfTester.exe
 
 ## Tesseract
-Tesseract can be downloaded here: https://github.com/UB-Mannheim/tesseract/wiki
+Tesseract can be downloaded here: https://github.com/UB-Mannheim/tesseract/wiki <br/>
 It is sufficient to unpack the downloaded archive. No installation is required.
 
 ## Language packages
-Tesseract language packages can be downloaded here: https://github.com/tesseract-ocr/tessdata_best
+Tesseract language packages can be downloaded here: https://github.com/tesseract-ocr/tessdata_best <br/>
 Move the language files to the "Tesseract\tessdata\" folder.
 
 ## Functions
