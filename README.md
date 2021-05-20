@@ -1,142 +1,125 @@
 # PDF Tester
 
+## Executable program
+PdfTester.exe
 
-## Installationsprogramm
-PdfTester_Setup_32-Bit.exe / PdfTester_Setup_64-Bit.exe entpackt die benötigten Daten selbstständig und erstellt eine Programmverknüpfung auf dem Desktop.
+## Tesseract
+Tesseract can be downloaded here: https://github.com/UB-Mannheim/tesseract/wiki
+It is sufficient to unpack the downloaded archive. No installation is required.
 
+## Language packages
+Tesseract language packages can be downloaded here: https://github.com/tesseract-ocr/tessdata_best
+Move the language files to the "Tesseract\tessdata\" folder.
 
-## Funktionen
--Automatisch PDF Betrachtungsprogramme mit PDF Dokument aufrufen<br/>
--ScreenshotS anfertigen<br/>
--Screenshotvergleich<br/>
--OCR Texterkennung<br/>
+## Functions
+-Automatically launch PDF viewing programs with PDF document and create screenshots<br/>
+-Compare screenshots<br/>
+-OCR text recognition of screenshots<br/>
 
+## Storage location
+-Settings and inputs are stored in configuration files under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".
+-Erros are stored in a debug file under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".
 
-## Speicherort
-Eingaben werden in Konfigurationsdateien unter "C:\Users\USERNAME\AppData\Local\PdfTester\" abgespeichert.
-
-
-## [Start]
-
-PDF Programmliste:<br/>
-Eingabe der Pfade zu den einzelnen PDF Betrachtungsprogrammen (ein Pfad pro Zeile).
-Optional kann durch die Eingabe eines Semikolons + anschließenden String ein Name gewählt werden.
-Dieser Name wird als Dateiname zum dazugehörigen Screenshot verwendet.
-Wird kein Name angebeben, wird der Dateiname des PDF Betrachungsprogramms verwendet.
-Zusätzlich zum Namen, kann durch die Eingabe eines weiteren Semikolons + anschließenden ganzzahligen Wert ein Wartezeit eingetragen werden.
-Da PDF Betrachtungsprogramme unterschiedliche Zeitspannen benötigen, um den Inhalt eines PDF Dokuments anzuzeigen, kann hier eine Wartezeit individuell für jedes PDF Betrachtungsprogramm eingetragen werden.
-Erst nach dieser Wartezeit wird ein Screenshot angefertigt und das Programm geschlossen.
-Wird keine Wartezeit angegeben, so wird die Wartezeit unter [Einstellungen] verwendet.
+## [Creator]
+List of PDF applications:<br/>
+Enter the paths to each PDF application (one path per line).
+Optionally, a name can be selected by entering a semicolon + following string.
+This name will be used as file name to the corresponding screenshot.
+If no name is specified, the file name of the PDF application will be used.
+In addition to the name, a waiting time can be entered by entering another semicolon followed by an integer value.
+Since PDF applications need different amounts of time to display the contents of a PDF document, a waiting time can be entered here individually for each PDF viewer.
+Only after this waiting time a screenshot is made and the program is closed.
+If no waiting time is specified, the waiting time under [Settings] is used.
 <br/><br/>
-PDF Dateien (Pfadangabe):<br/>
-An dieser Stelle muss der Ordner zu den PDF Dateien angegeben werden (Unterordner werden berücksichtigt).
-Die einzelnen Dateien werden als Argument zum Programmstart der Betrachtungsprogramme hinzugefügt.
+Path to the PDF documents to be checked:<br/>
+At this point the folder to the PDF files must be specified (subfolders are considered).
+The individual files are added as an argument to the program start of the viewing programs.
 <br/><br/>
-Ablageort Screenshot (Pfadangabe):<br/>
-An dieser Stelle muss der Ordner ausgewählt werden, in dem die erstellten Screenshots abgespeichert werden sollen.
-Für jedes PDF Betrachtungsprogramm wird ein Unterordner erstellt.
+Path to the screenshots to be created:<br/>
+At this point, the folder where the created screenshots should be saved must be selected.
+A subfolder is created for each PDF application.
 <br/><br/>
-PDF Tester starten:<br/>
-Dieser Button startet die Abarbeitung.
-Jedes unter der Pfadangabe gefundene PDF Dokument, wird mit jedem PDF Betrachtungsprogramm in der Programmliste aufgerufen.
-Anschließend wird ein Screenshot erstellt und dieser unter dem gewählten Ablageort gespeichert.
-Der Dateiname des Screenshot setzt sich wie folgt zusammen "PDF-Dateiname + _ + Name in Programmliste + _ + Datum + .png".
+Launch Screenshot Creator:<br/>
+This button starts the processing.
+Each PDF document found under the selected path, will be called with each PDF application in the program list.
+Then a screenshot is created and saved under the selected location.
+The file name of the screenshot is composed as follows "PDF file name + _ + name in program list + _ + date + .png".
 <br/><br/>
-Speichern:<br/>
-Speichert die Programmliste, sowie die Pfadangaben.
+Save inputs:<br/>
+Saves the program list, as well as the path information.
 <br/><br/>
-Debug öffnen:<br/>
-Öffnet die Debug-Datei aus der im Fehlerfall weitere Informationen entnommen werden können.
+Open debug file:<br/>
+Opens the debug file from which further information can be taken in the event of an error.
 
 
-## [Vergleich]
-
-Hier können Screenshots mit einander verglichen werden.
-Da jeweils Pixel mit Pixel verglichen wird, müssen die zu vergleichenden Screenshots die selbe Pixelbreite aufweisen.
+## [Comparer]
+Here you can compare different screenshots using reference screenshots.
+Since in each case pixel is compared with pixel, the screenshots to be compared must have the same pixel width.
 <br/><br/>
-Pfadangabe zu Screenshots:<br/>
-Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden (Unterordner werden berücksichtigt).
+Path to the screenshots of PDF documents to be checked:<br/>
+The path to the screenshots created under [Creator] must be entered here (subfolders are taken into account).
 <br/><br/>
-Pfadangabe zu Screenshots (valide):<br/>
-Einmalig müssen unter [Start] Screenshots erstellt werden, die eine valide Signaturüberprüfung aufweisen.
-Diese Screenshots dienen als Referenz und sollen mit späteren Screenshots von manipulierten PDF Dokumenten vergleichen werden.
-Bei der Pfadangabe werden Unterordner berücksichtigt.
+Path to the screenshots of valid PDF documents:<br/>
+Reference screenshots must be created under [Creator], which have a valid signature verification.
+These screenshots serve as a reference and are to be compared with screenshots of the PDF documents to be checked.
+Subfolders are included when defining the path.
 <br/><br/>
-Screenshot Vergleich starten:<br/>
-Dieser Button startet die Abarbeitung.
-Das Programm liest die Dateinamen in den angegebenen Ordnern ein und vergleicht den enthaltenen Namen des PDF Betrachtungsprogramm.
-Es wird für den zu überprüfenden Screenshot ein passender validen Screenshot gesucht (Bsp. beide Screenshots wurden mit geöffneten Acrobat Reader DC erstellt, so ist im Dateinamen "AdobeDC" enthalten).
-Wird ein passender validen Screenshot gefunden, werden beide Screenshots miteinander verglichen.
-Tritt hierbei keine Pixeldifferenz auf, kann daraus abgeleitet werden, dass der Inhalt gleich ist und somit der zu überprüfende Screenshot eine valide Signaturprüfung aufweist.
-Die Ergebnisse werden in den beiden Textboxen ausgegeben.
-
-
-## [OCR]
-
-Hier können Screenshots durch eine OCR Texterkennung eingelesen werden und der Inhalt nach expliziten Suchbegriffen durchsucht werden.
-Für die Texterkennung wird Tesseract in der Version 4 verwendet.
-<br/><br/>
-Pfadangabe zu Screenshots:<br/>
-Hier muss der Pfad zu den unter [Start] erstellten Screenshots eingetragen werden (Unterordner werden berücksichtigt).
-<br/><br/>
-Pfadangabe zum Speichern des erkannten Textes:<br/>
-Der über die OCR Texterkennung gescannte Inhalt der Screenshots wird für eine spätere Auswertung in der Textdatei geschrieben.
-<br/><br/>
-Suchbegriffe:<br/>
-In diesem Textfeld muss der zu suchende Begriff eingegeben werden. Bsp. "signature is valid".
-Das Programm sucht im gescannten Inhalt nach den eingetragenen Suchbegriffen und stellt sie in der entsprechenden Textbox dar.
-<br/><br/>
-Führe OCR Texterkennung zusätzlich mit hochskaliertem Screenshot durch:<br/>
-Es kann vorkommen, dass die Screenshot Qualtität nicht ausreicht, um ein optimales Ergebnis bei der Texterkennung zu erzielen.
-Durch einen zweiten Durchlauf mit einem hochskalierten Screenshot, kann die Texterkennung verbessert werden.
-Die Option verlängert die Verarbeitung pro Bild um ca. den Faktor 2,5.
+Launch Screenshot Comparer:<br/>
+This button starts the processing.
+The program reads the file names in the defined folders and compares the contained name of the PDF viewing program.
+It searches for a matching valid screenshot for the screenshot to be checked (e.g. both screenshots were created with Acrobat Reader DC, so the file name contains "AdobeDC".).
+If a matching valid screenshot is found, both screenshots are compared.
+If there is no pixel difference, it can be concluded that the content is the same and therefore the screenshot to be checked has a valid signature check.
+The results are output in the two text boxes.
 
 
-## [Einstellungen]
+## [OCR Analyzer]
+At this point, screenshots can be read in via OCR text recognition and the content searched for unique search terms.
+Tesseract is used for text recognition.
+<br/><br/>
+Path to the screenshots of PDF documents to be checked:<br/>
+The path to the screenshots created under [Creator] must be entered here (Subfolders are included).
+<br/><br/>
+Path to save the recognized text to a file:<br/>
+The content of the screenshots scanned via OCR text recognition is written to the text file for later evaluation.
+<br/><br/>
+Search terms:<br/>
+The term to be searched must be entered in this text field. Ex. "signature is valid".
+The program will search the scanned content for the entered search terms and display them in the corresponding text box.
+<br/><br/>
+Perform OCR text recognition additionally with grayscale screenshot:<br/>
+To improve text recognition, converting the screenshot to grayscale can be beneficial. 
+Perform OCR text recognition additionally with upscaled screenshot:<br/>
+It may happen that the screenshot quality is not sufficient to achieve an optimal result in text recognition.
+By a second run with an upscaled screenshot, the text recognition can be improved.
+These options extends the processing time per image by a factor of about 2.5.
 
-Wartezeit bevor das PDF Betrachtungsprogramm geschlossen wird:<br/>
-Je nach Rechenleistung und Betrachtungsprogramms, kann es eine Weile dauern, bis das PDF Betrachtungsprogramm die PDF Datei vollständig geladen hat.
-Erst nach Ablauf dieser Wartezeit, wird der Screenshot [Start] angefertigt.
-Standardwert: 50 Sekunden
-<br/><br/>
-Wartezeit nachdem das PDF Betrachtungsprogramm geschlossen wurde:<br/>
-Je nach Rechenleistung und Betrachtungsprogramms, kann es einen Moment dauern, bis das PDF Betrachtungsprogramm vollständig durch den PDF Tester geschlossen wurde.
-Erst nach Ablauf dieser Wartezeit, das nächste PDF Betrachtungsprogramm aufgerufen.
-Standardwert: 2 Sekunden
-<br/><br/>
-Differenzgrenze für erfolgreichen Screenshotvergleich:<br/>
-Beim Screenshotvergleich [Vergleich], kann es zu minimalen Pixelabweichungen kommen, obwohl der zu überprüfende Screenshot eine valide Signaturprüfung aufweist.
-Die maximale Abweichung kann an dieser Stelle angepasst werden.
-Standardwert: 0,00001 %
-<br/><br/>
-Maximal zu berücksichtigende Bildhöhe:<br/>
-Der relevante Bildausschnitt beim Screenshotvergleich [Vergleich], welcher eine valide bzw. eine invalide Signaturprüfung aufweist, befindet sich i.d.R. im oberen Bildbereich.
-Um den Screenshotvergleich zu beschleuningen, kann der zu berücksichtigende Bildbereich eingeschränkt werden.
-Standardwert: 500 Pixel
-<br/><br/>
-Sprachauswahl OCR-Texterkennung:<br/>
-Für die Texterkennung kann das Sprachpaket ausgewählt werden.
-Es wird empfohlen die Screenshots in englischer Sprache anzufertigen und das englische Sprachpaket "eng" auszuwählen, da hiermit die besten Ergebnisse erzielt werden konnten.
-<br/><br/>
-Pfadangabe zum Tesseract Ordner:<br/>
-Hier kann der Tesseract Programmordner ausgewählt werden.
-Standardmäßig entpackt die Datei PdfTester_Setup_32-Bit.exe / PdfTester_Setup_64-Bit.exe die Dateien unter "C:\Users\USERNAME\AppData\Local\PdfTester\tesseract".
-Unterhalb des tesseract-Ordners müssen die Sprachpakete im Ordner "tessdata" liegen.
- 
 
-## Hinweise
-Die PdfTester.exe ist digital signiert, um Sicherheitsmeldungen durch PDF Betrachtungsprogrammen vorzubeugen.
-Das Zertifikat muss dem Rechner als Vertrauenswürdige Stammzertifizierungsstelle hinzugefügt werden.
-Die Datei "PdfTester_Setup_64-Bit.exe" enthält das Tesseract Programm in der 64 Bit Variante und liefert auf 64 Bit Systemen eine etwas schnellere Verarbeitung.
-Im Ordner tesseract/tessdata liegen die Dateien "eng.traineddata" und "deu.traineddata". Diese stammen aus den Sprachpaketen "tessdata-best".
-Um die Verarbeitung zu beschleunigen, können die Sprachpakete aus tesseract/tessdata/FastLanguage in tesseract/tessdata verschoben werden.
-Allerdings kann dies zu einer Verschlechterung der Texterkennung führen.
- 
-## Links
- 
-Tesseract Programmdaten:<br/>
-https://github.com/UB-Mannheim/tesseract/wiki
+## [Settings]
+Waiting time before closing the PDF application:<br/>
+Depending on the processing power and PDF application, it may take a while until the PDF application has completely loaded the PDF file.
+Only after this waiting time, the screenshot [Creator] is made.
+Default value: 50 seconds
 <br/><br/>
-Tesseract Sprachpakete ("tessdata-best" liefern zuverlässigere Ergebnisse):<br/>
-https://github.com/tesseract-ocr
-
+Waiting time after the PDF application was closed:<br/>
+Depending on the processing power and application, it may take a moment until the PDF application is completely closed by the PDF Tester.
+Only after this waiting time, the next PDF application will be launched.
+Default value: 2 seconds
+<br/><br/>
+Difference limit for successful screenshot comparison:<br/>
+During screenshot comparison [Comparer], minimal pixel deviations may occur, although the screenshot to be checked has a valid signature check.
+The maximum deviation can be adjusted at this point.
+Default value: 0.00001 %
+<br/><br/>
+Maximum image height to consider for screenshot comparison:<br/>
+The relevant image section in the screenshot comparison [Comparer], which has a valid or an invalid signature check, is usually located in the upper image area.
+To speed up the screenshot comparison, the image area to be considered can be restricted.
+Default value: 500 pixels
+<br/><br/>
+Language selection OCR text recognition:<br/>
+A language pack can be selected for the text recognition.
+It is recommended to create the screenshots in English and to select the English language package "eng", because the best results could be achieved with it. The dropdown list is filled with the files in the "tessdata" subfolder of the Tesseract folder. The language files must have the extension ".traineddata".
+<br/><br/>
+Path to the Tesseract folder:<br/>
+At this point, the Tesseract program folder must be selected.
+Inside the Tesseract folder, the language packages must be located in the "tessdata" folder.
