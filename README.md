@@ -17,7 +17,7 @@ Move the language files to the "Tesseract\tessdata\" folder.
 -OCR text recognition of screenshots<br/>
 
 ## Storage location
--Settings and inputs are stored in configuration files under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".
+-Settings and inputs are stored in configuration files under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".<br/>
 -Erros are stored in a debug file under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".
 
 ## [Creator]
