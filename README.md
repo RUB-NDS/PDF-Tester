@@ -12,7 +12,7 @@ Tesseract language packages can be downloaded here: https://github.com/tesseract
 Move the language files to the "Tesseract\tessdata\" folder.
 
 ## Functions
--Automatically launch PDF applications with PDF document and create screenshots<br/>
+-Automatically launch PDF applications with PDF documents and create screenshots<br/>
 -Compare screenshots<br/>
 -OCR text recognition of screenshots<br/>
 
