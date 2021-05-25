@@ -18,7 +18,7 @@ Move the language files to the "Tesseract\tessdata\" folder.
 
 ## Storage location
 -Settings and inputs are stored in configuration files under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".<br/>
--Erros are stored in a debug file under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".
+-Errors are stored in a debug file under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".
 
 ## [Creator]
 List of PDF applications:<br/>
