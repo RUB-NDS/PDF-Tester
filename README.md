@@ -3,6 +3,11 @@
 ## Executable program
 PdfTester.exe
 
+## Functions
+-Automatically launch PDF applications with PDF documents and create screenshots<br/>
+-Compare screenshots<br/>
+-OCR text recognition of screenshots<br/>
+
 ## Tesseract
 Tesseract can be downloaded here: https://github.com/UB-Mannheim/tesseract/wiki <br/>
 It is sufficient to unpack the downloaded archive. No installation is required.
@@ -10,11 +15,6 @@ It is sufficient to unpack the downloaded archive. No installation is required.
 ## Language packages
 Tesseract language packages can be downloaded here: https://github.com/tesseract-ocr/tessdata_best <br/>
 Move the language files to the "Tesseract\tessdata\" folder.
-
-## Functions
--Automatically launch PDF applications with PDF documents and create screenshots<br/>
--Compare screenshots<br/>
--OCR text recognition of screenshots<br/>
 
 ## Storage location
 -Settings and inputs are stored in configuration files under "C:\Users\%USERNAME%\AppData\Local\PdfTester\".<br/>
