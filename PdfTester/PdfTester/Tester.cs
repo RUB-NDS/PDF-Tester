@@ -1,6 +1,8 @@
 ﻿//References:
 //https://social.technet.microsoft.com/wiki/contents/articles/26805.c-calculating-percentage-similarity-of-2-strings.aspx
 //Microsoft Corporation
+//https://rosettacode.org/wiki/Percentage_difference_between_images#C.23
+//Rosetta Code
 
 using System;
 using System.Drawing;
