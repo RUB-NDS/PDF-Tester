@@ -19,7 +19,7 @@ namespace PdfTester
         public static string ocrFilename = "ocr.conf";
         public static string waitTime1 = "50";
         public static string waitTime2 = "2";
-        public static string diffValue = "0,00001";
+        public static string diffValue = "0.00001";
         public static string maxHeight = "500";
         public static string language = "eng";
         public static string error = "Error";

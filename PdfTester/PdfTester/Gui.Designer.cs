@@ -95,8 +95,8 @@
             this.pDFTesterV04ToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.pDFTesterV04ToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.pDFTesterV04ToolStripMenuItem.Name = "pDFTesterV04ToolStripMenuItem";
-            this.pDFTesterV04ToolStripMenuItem.Size = new System.Drawing.Size(106, 20);
-            this.pDFTesterV04ToolStripMenuItem.Text = "PDF Tester v0.4";
+            this.pDFTesterV04ToolStripMenuItem.Size = new System.Drawing.Size(126, 20);
+            this.pDFTesterV04ToolStripMenuItem.Text = "PDF Tester v0.4.0.1";
             this.pDFTesterV04ToolStripMenuItem.Click += new System.EventHandler(this.pDFTesterV04ToolStripMenuItem_Click);
             // 
             // Gui

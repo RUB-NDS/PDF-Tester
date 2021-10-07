@@ -48,8 +48,8 @@ namespace PdfTester
                         string[] split = result.Split(';');
                         textBoxWaitTime1.AppendText(split[0]);
                         textBoxWaitTime2.AppendText(split[1]);
-                        if (split[2].Contains('.'))
-                            split[2] = split[2].Replace('.', ',');
+                        if (split[2].Contains(','))
+                            split[2] = split[2].Replace(',', '.');
                         textBoxDiffValue.AppendText(split[2]);
                         textBoxMaxHeight.AppendText(split[3]);
                         language = split[4];
@@ -112,8 +112,8 @@ namespace PdfTester
                 Convert.ToInt32(textBoxMaxHeight.Text);
 
                 string diff = textBoxDiffValue.Text;
-                if (diff.Contains('.'))
-                    diff = diff.Replace('.', ',');
+                if (diff.Contains(','))
+                    diff = diff.Replace(',', '.');
                 
 
                 string content = textBoxWaitTime1.Text + ";" + textBoxWaitTime2.Text + ";" + diff + ";" + textBoxMaxHeight.Text + ";" + comboBoxOcrLanguage.Text;

@@ -282,7 +282,7 @@ namespace PdfTester
             try
             {
                 double compareDiff= Convert.ToDouble(result);
-                e.Result = name1[name1.Length - 1] + "; Difference: " + result;
+                e.Result = name1[name1.Length - 1] + "; Difference; " + result;
             }
             catch (Exception)
             {
